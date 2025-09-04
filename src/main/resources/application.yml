@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active:
+      - dev
+  application:
+    name: project-banca
+#  datasource:
+#    url: jdbc:postgresql://localhost:5438/banca_database
+#    username: eliasmoranurcia
+#    password: root
+#    driver-class-name: org.postgresql.Driver

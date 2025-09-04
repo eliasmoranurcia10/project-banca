@@ -1,0 +1,15 @@
+services:
+  postgres_server_banca:
+    container_name: postgres_server_banca
+    image: postgres:latest
+    ports:
+      - '5438:5432'
+    environment:
+      POSTGRES_USER: eliasmoranurcia
+      POSTGRES_DB: banca_database
+      POSTGRES_PASSWORD: root
+    volumes:
+      - database_vol_banca:/var/lib/postgrsql/data
+
+volumes:
+  database_vol_banca:

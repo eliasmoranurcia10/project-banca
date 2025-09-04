@@ -1,0 +1,10 @@
+server:
+  port: 8090
+spring:
+  application:
+    name: project-banca
+  datasource:
+    url: jdbc:postgresql://localhost:5432/banca_database_prueba
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
