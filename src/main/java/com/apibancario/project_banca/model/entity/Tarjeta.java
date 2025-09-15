@@ -31,6 +31,12 @@ public class Tarjeta {
     @Column(name = "fecha_vencimiento", nullable = false, length = 5)
     private String fechaVencimiento;
 
+    @Column(name = "pin_tarjeta", nullable = false)
+    private String pinTarjeta;
+
+    @Column(name = "cvv_tarjeta", nullable = false)
+    private String cvvTarjeta;
+
     @ManyToOne
     @JoinColumn(name = "id_cuenta")
     private Cuenta cuenta;

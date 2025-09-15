@@ -41,4 +41,7 @@ public class Cuenta {
     @OneToMany(mappedBy = "cuenta")
     private List<Tarjeta> tarjetas;
 
+    @OneToMany(mappedBy = "cuentaDestino")
+    private List<Transaccion> transferenciasRecibidas;
+
 }

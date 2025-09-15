@@ -1,4 +1,10 @@
 package com.apibancario.project_banca.model.dto.tarjeta;
 
-public record CardRequestDto () {
+import com.apibancario.project_banca.model.enums.TipoTarjeta;
+
+public record CardRequestDto (
+        TipoTarjeta cardType,
+        String cardPin,
+        Integer accountId
+) {
 }

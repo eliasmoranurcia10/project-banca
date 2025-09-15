@@ -33,7 +33,7 @@ public class Prestamo {
 
     @ManyToOne
     @JoinColumn(name = "id_cliente")
-    private Prestamo prestamo;
+    private Cliente cliente;
 
     @OneToMany(mappedBy = "prestamo")
     private List<PagoPrestamo> pagosPrestamo;
