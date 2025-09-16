@@ -4,6 +4,7 @@ import com.apibancario.project_banca.model.dto.cliente.ClientRequestDto;
 import com.apibancario.project_banca.model.dto.cliente.ClientResponseDto;
 import com.apibancario.project_banca.service.ClienteService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,14 +31,14 @@ public class ClienteController {
     }
 
     @PostMapping
-    public ResponseEntity<ClientResponseDto> saveClient(@RequestBody ClientRequestDto clientRequestDto) {
+    public ResponseEntity<ClientResponseDto> saveClient(@RequestBody @Valid ClientRequestDto clientRequestDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.save(clientRequestDto));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ClientResponseDto> updateClient(
             @PathVariable Integer id,
-            @RequestBody ClientRequestDto clientRequestDto
+            @RequestBody @Valid ClientRequestDto clientRequestDto
     ) {
         return ResponseEntity.ok(clienteService.update(id, clientRequestDto));
     }

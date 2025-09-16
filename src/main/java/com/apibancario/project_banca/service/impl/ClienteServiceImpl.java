@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -48,18 +49,19 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public ClientResponseDto update(Integer id, ClientRequestDto clientRequestDto) {
         if(id==null || id<=0) throw new BadRequestException("El id es incorrecto");
-        try {
-            return clienteRepository.findById(id)
-                    .map( cliente -> {
-                        clienteMapper.updateClienteFromDto(clientRequestDto, cliente);
+
+        return clienteRepository.findById(id)
+                .map( cliente -> {
+                    clienteMapper.updateClienteFromDto(clientRequestDto, cliente);
+                    try {
                         return clienteMapper.toClientResponseDto(clienteRepository.save(cliente));
-                    })
-                    .orElseThrow(
-                            () -> new ResourceNotFoundException("No se encontró al cliente con id: "+id)
-                    );
-        } catch (Exception exception) {
-            throw new BadRequestException("Error al actualizar el cliente, ingresar datos correctos");
-        }
+                    } catch (Exception ex) {
+                        throw new BadRequestException("Error al actualizar cliente, ingresar datos correctos");
+                    }
+                })
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("No se encontró al cliente con id: "+id)
+                );
     }
 
     @Override
