@@ -8,6 +8,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Mapper(componentModel = "spring", uses = {CuentaMapper.class})
@@ -16,7 +18,7 @@ public interface TarjetaMapper {
     @Mapping(target = "idTarjeta", ignore = true)
     @Mapping(target = "numeroTarjeta", ignore = true)
     @Mapping(target = "tipoTarjeta", expression = "java(cardRequestDto.cardType().name())")
-    @Mapping(target = "fechaVencimiento", ignore = true)
+    @Mapping(target = "fechaVencimiento", qualifiedByName = "generarFechaVencimiento")
     @Mapping(target = "pinTarjeta", ignore = true)
     @Mapping(target = "cvvTarjeta", ignore = true)
     @Mapping(target = "cuenta", ignore = true)
@@ -32,6 +34,11 @@ public interface TarjetaMapper {
     CardResponseDto toCardResponseDto(Tarjeta tarjeta);
     List<CardResponseDto> toCardsResponseDto(List<Tarjeta> tarjetas);
 
+    @Named("generarFechaVencimiento")
+    default String generarFechaVencimiento() {
+        return LocalDate.now().plusYears(5).format(DateTimeFormatter.ofPattern("MM/yy"));
+    }
+
     @Named("tipoTarjetaToCardType")
     default TipoTarjeta tipoTarjetaToCardType(String tipoTarjeta) {
         return tipoTarjeta==null? null: switch (tipoTarjeta.toUpperCase()) {
@@ -40,5 +47,4 @@ public interface TarjetaMapper {
             default -> null;
         };
     }
-
 }

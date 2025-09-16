@@ -3,8 +3,10 @@ package com.apibancario.project_banca.mapper;
 import com.apibancario.project_banca.model.dto.cliente.ClientRequestDto;
 import com.apibancario.project_banca.model.dto.cliente.ClientResponseDto;
 import com.apibancario.project_banca.model.entity.Cliente;
+import org.mapstruct.InheritConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
@@ -19,9 +21,14 @@ public interface ClienteMapper {
     Cliente toCliente(ClientRequestDto clientRequestDto);
     List<Cliente> toClientes(List<ClientRequestDto> clientsRequestDto);
 
+    @InheritConfiguration(name = "toCliente")
+    void updateClienteFromDto(ClientRequestDto clientRequestDto, @MappingTarget Cliente cliente);
+
     @Mapping(target = "clientId", source = "idCliente")
     @Mapping(target = "name", source = "nombre")
     @Mapping(target = "lastName", source = "apellido")
     ClientResponseDto toClientResponseDto(Cliente cliente);
     List<ClientResponseDto> toClientsResponseDto(List<Cliente> clientes);
+
+
 }
