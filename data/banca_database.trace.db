@@ -1,0 +1,20 @@
+2025-09-16 13:36:01.364032-05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valor demasiado largo para la columna "DNI CHARACTER VARYING(8)": "'7546258454545' (13)"
+Value too long for column "DNI CHARACTER VARYING(8)": "'7546258454545' (13)"; SQL statement:
+update cliente set apellido=?,dni=?,email=?,nombre=? where id_cliente=? [22001-232]
+2025-09-16 14:05:56.623264-05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valor demasiado largo para la columna "DNI CHARACTER VARYING(8)": "'787878979878798' (15)"
+Value too long for column "DNI CHARACTER VARYING(8)": "'787878979878798' (15)"; SQL statement:
+insert into cliente (apellido,dni,email,nombre,id_cliente) values (?,?,?,?,default) [22001-232]
+2025-09-16 14:22:41.650526-05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valor demasiado largo para la columna "DNI CHARACTER VARYING(8)": "'75462584656' (11)"
+Value too long for column "DNI CHARACTER VARYING(8)": "'75462584656' (11)"; SQL statement:
+update cliente set apellido=?,dni=?,email=?,nombre=? where id_cliente=? [22001-232]
+2025-09-16 15:06:33.324968-05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valor demasiado largo para la columna "DNI CHARACTER VARYING(8)": "'485464464654654' (15)"
+Value too long for column "DNI CHARACTER VARYING(8)": "'485464464654654' (15)"; SQL statement:
+insert into cliente (apellido,dni,email,nombre,id_cliente) values (?,?,?,?,default) [22001-232]
+2025-09-16 15:08:52.896107-05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valor demasiado largo para la columna "DNI CHARACTER VARYING(8)": "'546546446546546546' (18)"
+Value too long for column "DNI CHARACTER VARYING(8)": "'546546446546546546' (18)"; SQL statement:
+update cliente set apellido=?,dni=?,email=?,nombre=? where id_cliente=? [22001-232]
