@@ -16,7 +16,7 @@ public interface PagoPrestamoMapper {
 
     @Mapping(target = "idPago", ignore = true)
     @Mapping(target = "montoPago", source = "paymentAmount")
-    @Mapping(target = "fechaPago", expression = "java(LocalDateTime.now())")
+    @Mapping(target = "fechaPago", expression = "java(java.time.LocalDateTime.now())")
     @Mapping(target = "prestamo", ignore = true)
     PagoPrestamo toPagoPrestamo(LoanPayRequestDto loanPayRequestDto);
     List<PagoPrestamo> toPagosPrestamo(List<LoanPayRequestDto> loanPaysRequestDto);

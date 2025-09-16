@@ -18,7 +18,7 @@ public interface TarjetaMapper {
     @Mapping(target = "idTarjeta", ignore = true)
     @Mapping(target = "numeroTarjeta", ignore = true)
     @Mapping(target = "tipoTarjeta", expression = "java(cardRequestDto.cardType().name())")
-    @Mapping(target = "fechaVencimiento", qualifiedByName = "generarFechaVencimiento")
+    @Mapping(target = "fechaVencimiento", ignore = true)
     @Mapping(target = "pinTarjeta", ignore = true)
     @Mapping(target = "cvvTarjeta", ignore = true)
     @Mapping(target = "cuenta", ignore = true)
@@ -33,11 +33,6 @@ public interface TarjetaMapper {
     @Mapping(target = "accountResponseDto", source = "cuenta")
     CardResponseDto toCardResponseDto(Tarjeta tarjeta);
     List<CardResponseDto> toCardsResponseDto(List<Tarjeta> tarjetas);
-
-    @Named("generarFechaVencimiento")
-    default String generarFechaVencimiento() {
-        return LocalDate.now().plusYears(5).format(DateTimeFormatter.ofPattern("MM/yy"));
-    }
 
     @Named("tipoTarjetaToCardType")
     default TipoTarjeta tipoTarjetaToCardType(String tipoTarjeta) {

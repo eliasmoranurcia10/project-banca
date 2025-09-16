@@ -18,7 +18,7 @@ public interface TransaccionMapper {
     @Mapping(target = "idTransaccion", ignore = true)
     @Mapping(target = "tipoTransaccion", expression = "java(transactionRequestDto.transactionType().name())") // Enum -> String
     @Mapping(target = "monto", source = "amount")
-    @Mapping(target = "fecha", expression = "java(LocalDateTime.now())")
+    @Mapping(target = "fecha", expression = "java(java.time.LocalDateTime.now())")
     @Mapping(target = "tarjeta", ignore = true)
     @Mapping(target = "cuentaDestino", ignore = true)
     Transaccion toTransaccion(TransactionRequestDto transactionRequestDto);
