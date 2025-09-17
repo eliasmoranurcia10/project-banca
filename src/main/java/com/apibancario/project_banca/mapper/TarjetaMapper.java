@@ -19,7 +19,7 @@ public interface TarjetaMapper {
     @Mapping(target = "numeroTarjeta", ignore = true)
     @Mapping(target = "tipoTarjeta", expression = "java(cardRequestDto.cardType().name())")
     @Mapping(target = "fechaVencimiento", ignore = true)
-    @Mapping(target = "pinTarjeta", ignore = true)
+    @Mapping(target = "pinTarjeta", source = "cardPin")
     @Mapping(target = "cvvTarjeta", ignore = true)
     @Mapping(target = "cuenta", ignore = true)
     @Mapping(target = "transacciones", ignore = true)

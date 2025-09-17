@@ -47,6 +47,7 @@ public class CuentaServiceImpl implements CuentaService {
     }
 
     @Override
+    @Transactional
     public AccountResponseDto save(AccountRequestDto accountRequestDto) {
 
         Cuenta cuenta = cuentaMapper.toCuenta(accountRequestDto);
@@ -77,6 +78,7 @@ public class CuentaServiceImpl implements CuentaService {
     @Transactional
     public AccountResponseDto updatePassword(Integer id, PasswordRequestDto passwordRequestDto) {
         if(id==null || id<=0) throw new BadRequestException("El id es incorrecto");
+
         Cuenta cuenta = cuentaRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("No se encontró la cuenta con id: "+id)
         );
@@ -84,6 +86,7 @@ public class CuentaServiceImpl implements CuentaService {
             throw new BadRequestException("Credenciales inválidas");
         }
         cuenta.setClaveAcceso(PasswordUtil.hashPassword(passwordRequestDto.newPassword()));
+
         try {
             return cuentaMapper.toAccountResponseDto(cuentaRepository.save(cuenta));
         } catch (Exception ex) {
@@ -92,6 +95,7 @@ public class CuentaServiceImpl implements CuentaService {
     }
 
     @Override
+    @Transactional
     public void delete(Integer id) {
         if(id==null || id<=0) throw new BadRequestException("El id es incorrecto");
         Cuenta cuenta = cuentaRepository.findById(id).orElseThrow(

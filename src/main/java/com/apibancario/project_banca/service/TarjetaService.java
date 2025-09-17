@@ -1,5 +1,6 @@
 package com.apibancario.project_banca.service;
 
+import com.apibancario.project_banca.model.dto.tarjeta.CardPinRequestDto;
 import com.apibancario.project_banca.model.dto.tarjeta.CardRequestDto;
 import com.apibancario.project_banca.model.dto.tarjeta.CardResponseDto;
 
@@ -9,6 +10,6 @@ public interface TarjetaService {
     List<CardResponseDto> listAll();
     CardResponseDto findById(Integer id);
     CardResponseDto save(CardRequestDto cardRequestDto);
-    CardResponseDto update(Integer id, CardRequestDto cardRequestDto);
+    CardResponseDto updatePinTarjeta(Integer id, CardPinRequestDto cardPinRequestDto);
     void delete(Integer id);
 }
