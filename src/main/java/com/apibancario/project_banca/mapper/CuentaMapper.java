@@ -2,10 +2,12 @@ package com.apibancario.project_banca.mapper;
 
 import com.apibancario.project_banca.model.dto.cuenta.AccountRequestDto;
 import com.apibancario.project_banca.model.dto.cuenta.AccountResponseDto;
+import com.apibancario.project_banca.model.dto.cuenta.PasswordRequestDto;
 import com.apibancario.project_banca.model.entity.Cuenta;
 import com.apibancario.project_banca.model.enums.TipoCuenta;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 
 import java.util.List;

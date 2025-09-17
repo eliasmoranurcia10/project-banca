@@ -4,7 +4,10 @@ import com.apibancario.project_banca.model.dto.cliente.ClientRequestDto;
 import com.apibancario.project_banca.model.dto.cliente.ClientResponseDto;
 import com.apibancario.project_banca.service.ClienteService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,31 +21,32 @@ public class ClienteController {
     private final ClienteService clienteService;
 
     @GetMapping
-    public List<ClientResponseDto> getAllClients() {
-        return clienteService.listAll();
+    public ResponseEntity<List<ClientResponseDto>> getAllClients() {
+        return ResponseEntity.ok( clienteService.listAll() );
     }
 
     @GetMapping("/{id}")
-    public ClientResponseDto getClientById(@PathVariable Integer id) {
-        return clienteService.findById(id);
+    public ResponseEntity<ClientResponseDto> getClientById(@PathVariable Integer id) {
+        return ResponseEntity.ok( clienteService.findById(id) );
     }
 
     @PostMapping
-    public ClientResponseDto saveClient(@RequestBody ClientRequestDto clientRequestDto) {
-        return clienteService.save(clientRequestDto);
+    public ResponseEntity<ClientResponseDto> saveClient(@RequestBody @Valid ClientRequestDto clientRequestDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.save(clientRequestDto));
     }
 
     @PutMapping("/{id}")
-    public ClientResponseDto updateClient(
+    public ResponseEntity<ClientResponseDto> updateClient(
             @PathVariable Integer id,
-            @RequestBody ClientRequestDto clientRequestDto
+            @RequestBody @Valid ClientRequestDto clientRequestDto
     ) {
-        return clienteService.update(id, clientRequestDto);
+        return ResponseEntity.ok(clienteService.update(id, clientRequestDto));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteClient(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteClient(@PathVariable Integer id) {
         clienteService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
