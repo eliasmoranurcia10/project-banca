@@ -22,7 +22,7 @@ public class Cuenta {
     @Column(name = "id_cuenta")
     private Integer idCuenta;
 
-    @Column(name = "numero_cuenta", nullable = false, length = 20, unique = true)
+    @Column(name = "numero_cuenta", nullable = false, length = 14, unique = true)
     private String numeroCuenta;
 
     @Column(name = "tipo_cuenta", nullable = false)

@@ -38,8 +38,8 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public ClientResponseDto save(ClientRequestDto clientRequestDto) {
+        Cliente cliente = clienteMapper.toCliente(clientRequestDto);
         try{
-            Cliente cliente = clienteMapper.toCliente(clientRequestDto);
             return clienteMapper.toClientResponseDto( clienteRepository.save(cliente) );
         } catch (Exception exception) {
             throw new BadRequestException("Error al guardar el cliente, ingresar datos correctos");
