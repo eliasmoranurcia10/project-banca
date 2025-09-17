@@ -29,7 +29,7 @@ public interface TransaccionMapper {
     @Mapping(target = "amount", source = "monto")
     @Mapping(target = "date", source = "fecha", qualifiedByName = "fechaToDate")
     @Mapping(target = "cardResponseDto", source = "tarjeta")
-    @Mapping(target = "accountResponseDto", source = "cuentaDestino")
+    @Mapping(target = "recipientAccountResponseDto", source = "cuentaDestino")
     TransactionResponseDto toTransactionResponseDto(Transaccion transaccion);
     List<TransactionResponseDto> toTransactionsResponseDto(List<Transaccion> transacciones);
 
@@ -45,7 +45,6 @@ public interface TransaccionMapper {
         return tipoTransaccion==null ? null : switch (tipoTransaccion.toUpperCase()) {
             case "DEPOSITO" -> TipoTransaccion.DEPOSITO;
             case "RETIRO" -> TipoTransaccion.RETIRO;
-            case "COMPRA" -> TipoTransaccion.COMPRA;
             case "TRANSFERENCIA" -> TipoTransaccion.TRANSFERENCIA;
             case "PAGO" -> TipoTransaccion.PAGO;
             default -> null;

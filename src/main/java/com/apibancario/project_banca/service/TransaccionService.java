@@ -9,6 +9,4 @@ public interface TransaccionService {
     List<TransactionResponseDto> listAll();
     TransactionResponseDto findById(Integer id);
     TransactionResponseDto save(TransactionRequestDto transactionRequestDto);
-    TransactionResponseDto update(Integer id, TransactionRequestDto transactionRequestDto);
-    void delete(Integer id);
 }

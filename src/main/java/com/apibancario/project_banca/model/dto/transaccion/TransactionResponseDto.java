@@ -12,6 +12,6 @@ public record TransactionResponseDto(
     BigDecimal amount,
     String date,
     CardResponseDto cardResponseDto,
-    AccountResponseDto accountResponseDto
+    AccountResponseDto recipientAccountResponseDto
 ) {
 }
