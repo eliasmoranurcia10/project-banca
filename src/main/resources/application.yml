@@ -3,4 +3,4 @@ spring:
     name: project-banca
   profiles:
     active:
-      - dev
+      - prod
