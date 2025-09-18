@@ -31,6 +31,9 @@ public class Prestamo {
     @Column(name = "plazo_meses", nullable = false)
     private Integer plazoMeses;
 
+    @Column(nullable = false)
+    private String estado;
+
     @ManyToOne
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;

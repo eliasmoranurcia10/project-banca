@@ -9,7 +9,7 @@ import java.util.Optional;
 public record TransactionRequestDto(
         TipoTransaccion transactionType,
         @NotNull(message = "El monto es requerido")
-        @Positive(message = "El Monto en un campo positivo")
+        @Positive(message = "El Monto en un numero positivo")
         BigDecimal amount,
 
         @NotBlank(message = "El número de tarjeta no debe estar vacío")
