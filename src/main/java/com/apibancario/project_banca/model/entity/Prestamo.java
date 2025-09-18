@@ -31,6 +31,9 @@ public class Prestamo {
     @Column(name = "plazo_meses", nullable = false)
     private Integer plazoMeses;
 
+    @Column(name = "cuota_mensual", nullable = false)
+    private BigDecimal cuotaMensual;
+
     @Column(nullable = false)
     private String estado;
 

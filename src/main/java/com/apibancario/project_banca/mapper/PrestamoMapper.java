@@ -17,6 +17,7 @@ public interface PrestamoMapper {
     @Mapping(target = "montoTotal", source = "totalAmount")
     @Mapping(target = "tasaInteres", source = "interestRate")
     @Mapping(target = "plazoMeses", source = "monthsOfDeadline")
+    @Mapping(target = "cuotaMensual", ignore = true)
     @Mapping(target = "estado", expression = "java(loanRequestDto.status().name())")
     @Mapping(target = "cliente", ignore = true)
     @Mapping(target = "pagosPrestamo", ignore = true)
@@ -27,15 +28,18 @@ public interface PrestamoMapper {
     @Mapping(target = "montoTotal", ignore = true)
     @Mapping(target = "tasaInteres", ignore = true)
     @Mapping(target = "plazoMeses", ignore = true)
+    @Mapping(target = "cuotaMensual", ignore = true)
     @Mapping(target = "pagosPrestamo", ignore = true)
     @Mapping(target = "estado", expression = "java(statusLoanRequestDto.status().name())")
     @Mapping(target = "cliente", ignore = true)
     void updateEstadoPrestamoFromDto(StatusLoanRequestDto statusLoanRequestDto, @MappingTarget Prestamo prestamo);
 
+
     @Mapping(target = "loanId", source = "idPrestamo")
     @Mapping(target = "totalAmount", source = "montoTotal")
     @Mapping(target = "interestRate", source = "tasaInteres")
     @Mapping(target = "monthsOfDeadline", source = "plazoMeses")
+    @Mapping(target = "monthlyFee", source = "cuotaMensual")
     @Mapping(target = "clientResponseDto", source = "cliente")
     @Mapping(target = "status", source = "estado", qualifiedByName ="estadoToStatus" )
     LoanResponseDto toLoanResponseDto(Prestamo prestamo);

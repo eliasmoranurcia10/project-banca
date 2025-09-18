@@ -10,6 +10,7 @@ public record LoanResponseDto(
         BigDecimal totalAmount,
         BigDecimal interestRate,
         Integer monthsOfDeadline,
+        BigDecimal monthlyFee,
         EstadoPrestamo status,
         ClientResponseDto clientResponseDto
 ) {

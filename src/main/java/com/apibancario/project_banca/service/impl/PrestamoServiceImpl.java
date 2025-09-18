@@ -12,6 +12,7 @@ import com.apibancario.project_banca.model.entity.Prestamo;
 import com.apibancario.project_banca.repository.ClienteRepository;
 import com.apibancario.project_banca.repository.PrestamoRepository;
 import com.apibancario.project_banca.service.PrestamoService;
+import com.apibancario.project_banca.util.CalculatorUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -44,10 +45,17 @@ public class PrestamoServiceImpl implements PrestamoService {
     public LoanResponseDto save(LoanRequestDto loanRequestDto) {
 
         Prestamo prestamo = prestamoMapper.toPrestamo(loanRequestDto);
+
         Cliente cliente = clienteRepository.findByDni(loanRequestDto.dni()).orElseThrow(
                 () -> new ResourceNotFoundException("No se encontró el dni del cliente")
         );
         prestamo.setCliente(cliente);
+
+        prestamo.setCuotaMensual(CalculatorUtil.calcularCuotaMensual(
+                prestamo.getTasaInteres(),
+                prestamo.getMontoTotal(),
+                prestamo.getPlazoMeses()
+        ));
 
         try {
             return prestamoMapper.toLoanResponseDto(prestamoRepository.save(prestamo));

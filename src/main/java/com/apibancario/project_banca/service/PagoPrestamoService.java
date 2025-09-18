@@ -9,6 +9,4 @@ public interface PagoPrestamoService {
     List<LoanPayResponseDto> listAll();
     LoanPayResponseDto findById(Integer id);
     LoanPayResponseDto save(LoanPayRequestDto loanPayRequestDto);
-    LoanPayResponseDto update(Integer id, LoanPayRequestDto loanPayRequestDto);
-    void delete(Integer id);
 }

@@ -18,8 +18,8 @@ public record LoanRequestDto(
         BigDecimal interestRate,
 
         @NotNull(message = "El plazo en meses es obligatorio")
-        @Min(value = 1, message = "El plazo mínimo es de 1 mes")
-        @Max(value = 360, message = "El plazo máximo es de 360 meses")
+        @Min(value = 6, message = "El plazo mínimo es de 6 meses")
+        @Max(value = 72, message = "El plazo máximo es de 72 meses")
         Integer monthsOfDeadline,
 
         @NotNull(message = "El estado del préstamo es obligatorio")

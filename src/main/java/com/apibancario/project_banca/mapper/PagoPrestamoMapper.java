@@ -26,6 +26,7 @@ public interface PagoPrestamoMapper {
     @Mapping(target = "paymentDate", source = "fechaPago", qualifiedByName = "fechaPagoToPaymentDate")
     @Mapping(target = "loanResponseDto", source = "prestamo")
     LoanPayResponseDto toLoanPayResponseDto(PagoPrestamo pagoPrestamo);
+    List<LoanPayResponseDto> toLoansPayResponseDto(List<PagoPrestamo> pagosPrestamo);
 
     @Named("fechaPagoToPaymentDate")
     default String fechaPagoToPaymentDate(LocalDateTime fechaPago) {
