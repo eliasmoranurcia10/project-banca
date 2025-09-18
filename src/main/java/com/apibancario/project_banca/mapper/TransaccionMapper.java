@@ -22,7 +22,6 @@ public interface TransaccionMapper {
     @Mapping(target = "tarjeta", ignore = true)
     @Mapping(target = "cuentaDestino", ignore = true)
     Transaccion toTransaccion(TransactionRequestDto transactionRequestDto);
-    List<Transaccion> toTransacciones(List<TransactionRequestDto> transactionsRequestDto);
 
     @Mapping(target = "transactionId", source = "idTransaccion")
     @Mapping(target = "transactionType", source = "tipoTransaccion", qualifiedByName = "tipoTransaccionToTransactionType")

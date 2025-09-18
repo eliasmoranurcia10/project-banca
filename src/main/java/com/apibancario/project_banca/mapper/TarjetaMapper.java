@@ -8,8 +8,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Mapper(componentModel = "spring", uses = {CuentaMapper.class})
@@ -24,7 +22,6 @@ public interface TarjetaMapper {
     @Mapping(target = "cuenta", ignore = true)
     @Mapping(target = "transacciones", ignore = true)
     Tarjeta toTarjeta(CardRequestDto cardRequestDto);
-    List<Tarjeta> toTarjetas(List<CardRequestDto> cardsRequestDto);
 
     @Mapping(target = "cardId", source = "idTarjeta")
     @Mapping(target = "cardNumber", source = "numeroTarjeta")

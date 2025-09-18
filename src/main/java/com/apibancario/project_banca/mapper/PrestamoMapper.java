@@ -5,7 +5,6 @@ import com.apibancario.project_banca.model.dto.prestamo.LoanResponseDto;
 import com.apibancario.project_banca.model.dto.prestamo.StatusLoanRequestDto;
 import com.apibancario.project_banca.model.entity.Prestamo;
 import com.apibancario.project_banca.model.enums.EstadoPrestamo;
-import com.apibancario.project_banca.model.enums.TipoCuenta;
 import org.mapstruct.*;
 
 import java.util.List;
@@ -22,7 +21,6 @@ public interface PrestamoMapper {
     @Mapping(target = "cliente", ignore = true)
     @Mapping(target = "pagosPrestamo", ignore = true)
     Prestamo toPrestamo(LoanRequestDto loanRequestDto);
-    List<Prestamo> toPrestamos(List<LoanRequestDto> loansRequestDto);
 
     @Mapping(target = "idPrestamo", ignore = true)
     @Mapping(target = "montoTotal", ignore = true)

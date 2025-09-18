@@ -11,13 +11,10 @@ import com.apibancario.project_banca.model.entity.Prestamo;
 import com.apibancario.project_banca.repository.PagoPrestamoRepository;
 import com.apibancario.project_banca.repository.PrestamoRepository;
 import com.apibancario.project_banca.service.PagoPrestamoService;
-import com.apibancario.project_banca.util.CalculatorUtil;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Service

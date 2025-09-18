@@ -4,7 +4,6 @@ import com.apibancario.project_banca.model.enums.TipoTransaccion;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
-import java.util.Optional;
 
 public record TransactionRequestDto(
         TipoTransaccion transactionType,

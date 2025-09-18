@@ -19,7 +19,6 @@ public interface ClienteMapper {
     @Mapping(target = "cuentas", ignore = true)
     @Mapping(target = "prestamos", ignore = true)
     Cliente toCliente(ClientRequestDto clientRequestDto);
-    List<Cliente> toClientes(List<ClientRequestDto> clientsRequestDto);
 
     @InheritConfiguration(name = "toCliente")
     void updateClienteFromDto(ClientRequestDto clientRequestDto, @MappingTarget Cliente cliente);

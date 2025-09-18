@@ -1,6 +1,5 @@
 package com.apibancario.project_banca.controller;
 
-import com.apibancario.project_banca.model.dto.cliente.ClientResponseDto;
 import com.apibancario.project_banca.model.dto.cuenta.AccountRequestDto;
 import com.apibancario.project_banca.model.dto.cuenta.AccountResponseDto;
 import com.apibancario.project_banca.model.dto.cuenta.PasswordRequestDto;
