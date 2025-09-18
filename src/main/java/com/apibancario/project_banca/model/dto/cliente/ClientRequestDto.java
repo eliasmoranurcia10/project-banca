@@ -15,7 +15,7 @@ public record ClientRequestDto(
         @Pattern(regexp = "\\d{8}", message = "El DNI debe ser exactamente 8 dígitos")
         String dni,
 
-        @NotBlank(message = "El dni es obligatorio")
+        @NotBlank(message = "El email es obligatorio")
         @Email(message = "El correo debe ser válido")
         String email
 ) {
