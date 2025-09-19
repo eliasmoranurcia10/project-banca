@@ -1,0 +1,81 @@
+package com.apibancario.project_banca.mapper;
+
+import com.apibancario.project_banca.model.dto.cliente.ClientRequestDto;
+import com.apibancario.project_banca.model.dto.cliente.ClientResponseDto;
+import com.apibancario.project_banca.model.entity.Cliente;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mapstruct.factory.Mappers;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class ClienteMapperTest {
+
+    private final ClienteMapper clienteMapper = Mappers.getMapper(ClienteMapper.class);
+    private ClientRequestDto clientRequestDto;
+
+    @BeforeEach
+    void setUp() {
+        clientRequestDto = new ClientRequestDto(
+                "Yoexer Elias",
+                "Moran Urcia",
+                "74755856",
+                "elias@gmail.com"
+        );
+    }
+
+    @Test
+    void testToCliente() {
+        Cliente cliente = clienteMapper.toCliente(clientRequestDto);
+
+        assertNotNull(cliente);
+        assertEquals(clientRequestDto.name(), cliente.getNombre());
+        assertEquals(clientRequestDto.lastName(), cliente.getApellido());
+        assertEquals(clientRequestDto.dni(), cliente.getDni());
+        assertEquals(clientRequestDto.email(), cliente.getEmail());
+    }
+
+    @Test
+    void testUpdateClienteFromDto() {
+        Cliente cliente = new Cliente(1,"Elias", "Moran", "75484848", "elias@gmail.com",new ArrayList<>(), new ArrayList<>());
+
+        clienteMapper.updateClienteFromDto(clientRequestDto, cliente);
+
+        assertEquals(1, cliente.getIdCliente());
+        assertEquals(clientRequestDto.name(), cliente.getNombre());
+        assertEquals(clientRequestDto.lastName(), cliente.getApellido());
+        assertEquals(clientRequestDto.dni(), cliente.getDni());
+        assertEquals(clientRequestDto.email(), cliente.getEmail());
+    }
+
+    @Test
+    void testToClientResponseDto() {
+        Cliente cliente = new Cliente(1,"Elias", "Moran", "75484848", "elias@gmail.com",new ArrayList<>(), new ArrayList<>());
+
+        ClientResponseDto clientResponseDto = clienteMapper.toClientResponseDto(cliente);
+
+        assertEquals(cliente.getIdCliente(), clientResponseDto.clientId());
+        assertEquals(cliente.getNombre(), clientResponseDto.name());
+        assertEquals(cliente.getApellido(), clientResponseDto.lastName());
+        assertEquals(cliente.getEmail(), clientResponseDto.email());
+    }
+
+    @Test
+    void testToClientsResponseDto() {
+        List<Cliente> clientes = List.of(
+                new Cliente(1,"Elias", "Moran", "75484848", "elias@gmail.com",new ArrayList<>(), new ArrayList<>())
+        );
+        List<ClientResponseDto> clientsResponseDto = clienteMapper.toClientsResponseDto(clientes);
+
+        assertEquals(clientes.getFirst().getIdCliente(), clientsResponseDto.getFirst().clientId());
+        assertEquals(clientes.getFirst().getNombre(), clientsResponseDto.getFirst().name());
+        assertEquals(clientes.getFirst().getApellido(), clientsResponseDto.getFirst().lastName());
+        assertEquals(clientes.getFirst().getEmail(), clientsResponseDto.getFirst().email());
+    }
+
+}

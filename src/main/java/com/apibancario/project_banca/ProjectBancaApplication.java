@@ -1,0 +1,13 @@
+package com.apibancario.project_banca;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class ProjectBancaApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(ProjectBancaApplication.class, args);
+	}
+
+}

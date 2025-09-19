@@ -1,0 +1,10 @@
+package com.apibancario.project_banca.model.dto.prestamo;
+
+import com.apibancario.project_banca.model.enums.EstadoPrestamo;
+import jakarta.validation.constraints.NotNull;
+
+public record StatusLoanRequestDto(
+        @NotNull(message = "El estado del préstamo es obligatorio")
+        EstadoPrestamo status
+) {
+}
