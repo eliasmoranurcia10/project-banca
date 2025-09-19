@@ -60,7 +60,7 @@ public class TarjetaServiceImpl implements TarjetaService {
         do {
             numeroTarjetaAleatorio = GeneradorUtil.generarNumeroAleatorio(16);
             reintentos--;
-        } while (cuentaRepository.findByNumeroCuenta(numeroTarjetaAleatorio).isPresent() && reintentos>0);
+        } while (tarjetaRepository.findByNumeroTarjeta(numeroTarjetaAleatorio).isPresent() && reintentos>0);
         if(reintentos==0) throw new InternalServerErrorException("No fue posible generar un número de tarjeta único");
 
         tarjeta.setNumeroTarjeta(numeroTarjetaAleatorio);
@@ -74,7 +74,7 @@ public class TarjetaServiceImpl implements TarjetaService {
         tarjeta.setCuenta(cuenta);
         try{
             return tarjetaMapper.toCardResponseDto(tarjetaRepository.save(tarjeta));
-        } catch (DataIntegrityViolationException ex) {
+        } catch (Exception ex) {
             throw new BadRequestException("Error al crear nueva tarjeta, ingrese los datos correctos");
         }
     }

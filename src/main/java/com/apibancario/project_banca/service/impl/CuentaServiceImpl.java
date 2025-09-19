@@ -69,7 +69,7 @@ public class CuentaServiceImpl implements CuentaService {
 
         try {
             return cuentaMapper.toAccountResponseDto(cuentaRepository.save(cuenta));
-        } catch (DataIntegrityViolationException ex) {
+        } catch (Exception ex) {
             throw new BadRequestException("Error al crear nueva cuenta, ingresar datos correctos");
         }
     }
