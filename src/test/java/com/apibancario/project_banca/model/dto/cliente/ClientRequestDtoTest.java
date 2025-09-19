@@ -38,7 +38,7 @@ public class ClientRequestDtoTest {
     }
 
     @Test
-    void whenDtoIsValid_thenNoValidationErrors() {
+    void whenClientRequestDtoIsValid_thenNoValidationErrors() {
 
         Set<ConstraintViolation<ClientRequestDto>> validationErrors = validator.validate(clientRequestDto);
 
@@ -46,7 +46,7 @@ public class ClientRequestDtoTest {
     }
 
     @Test
-    void whenDtoIsNotValid_thenValidationErrors() {
+    void whenClientRequestDtoIsNotValid_thenValidationErrors() {
         ClientRequestDto clientRequestDtoFail = new ClientRequestDto(
                 "Juan",
                 "Pérez",
