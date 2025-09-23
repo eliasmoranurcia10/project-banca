@@ -1,5 +1,8 @@
 package com.apibancario.project_banca.service.impl;
 
+import com.apibancario.project_banca.exception.BadRequestException;
+import com.apibancario.project_banca.exception.InternalServerErrorException;
+import com.apibancario.project_banca.exception.ResourceNotFoundException;
 import com.apibancario.project_banca.mapper.CuentaMapper;
 import com.apibancario.project_banca.mapper.PrestamoMapper;
 import com.apibancario.project_banca.model.dto.cliente.ClientResponseDto;
@@ -22,11 +25,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.internal.stubbing.answers.DoesNothing;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -76,6 +81,115 @@ public class PrestamoServiceImplTest {
         verify(prestamoRepository, times(1)).findAll();
     }
 
+    @Test
+    void testFindById_BadRequestExceptionZero() {
+        Integer id= 0;
+        BadRequestException ex = assertThrows(BadRequestException.class, () -> prestamoService.findById(id) );
+        assertEquals("El id es incorrecto", ex.getMessage());
+    }
 
+    @Test
+    void testFindById_BadRequestExceptionNull() {
+        Integer id= null;
+        BadRequestException ex = assertThrows(BadRequestException.class, () -> prestamoService.findById(null) );
+        assertEquals("El id es incorrecto", ex.getMessage());
+    }
 
+    @Test
+    void testFindById_ResourceNotFoundException() {
+        Integer id = 99;
+        when(prestamoRepository.findById(id)).thenReturn(Optional.empty());
+        ResourceNotFoundException ex = assertThrows(ResourceNotFoundException.class, () -> prestamoService.findById(id) );
+        assertEquals("No se encuentra un préstamo con el id: "+id, ex.getMessage());
+    }
+
+    @Test
+    void testFindById_Success() {
+        Integer id = 1;
+        when(prestamoRepository.findById(id)).thenReturn(Optional.of(prestamo));
+        when(prestamoMapper.toLoanResponseDto(prestamo)).thenReturn(loanResponseDto);
+        LoanResponseDto result = prestamoService.findById(id);
+        assertNotNull(result);
+        assertEquals(1, result.loanId());
+        assertEquals(new BigDecimal("4000"), result.totalAmount());
+        assertEquals(14, result.monthsOfDeadline());
+        verify(prestamoRepository, times(1)).findById(id);
+    }
+
+    @Test
+    void testSave_ResourceNotFoundException() {
+        when(prestamoMapper.toPrestamo(loanRequestDto)).thenReturn(prestamo);
+        when(clienteRepository.findByDni(loanRequestDto.dni())).thenReturn(Optional.empty());
+
+        ResourceNotFoundException ex = assertThrows(ResourceNotFoundException.class, () -> prestamoService.save(loanRequestDto));
+        assertEquals("No se encontró el dni del cliente", ex.getMessage());
+    }
+
+    @Test
+    void testSave_BadRequestException() {
+        when(prestamoMapper.toPrestamo(loanRequestDto)).thenReturn(prestamo);
+        when(clienteRepository.findByDni(loanRequestDto.dni())).thenReturn(Optional.of(cliente));
+        when(prestamoRepository.save(prestamo)).thenThrow(new RuntimeException("DB error"));
+
+        BadRequestException ex = assertThrows(BadRequestException.class, () -> prestamoService.save(loanRequestDto));
+        assertEquals("Error al crear nuevo préstamo, ingresar datos correctos", ex.getMessage());
+    }
+
+    @Test
+    void testSave_Success() {
+        when(prestamoMapper.toPrestamo(loanRequestDto)).thenReturn(prestamo);
+        when(clienteRepository.findByDni(loanRequestDto.dni())).thenReturn(Optional.of(cliente));
+        when(prestamoRepository.save(prestamo)).thenReturn(prestamo);
+        when(prestamoMapper.toLoanResponseDto(prestamo)).thenReturn(loanResponseDto);
+
+        LoanResponseDto result = prestamoService.save(loanRequestDto);
+        assertNotNull(result);
+        assertEquals(new BigDecimal("4000"), result.totalAmount());
+        verify(clienteRepository, times(1)).findByDni(loanRequestDto.dni());
+    }
+
+    @Test
+    void testUpdateStatusLoan_BadRequestExceptionZero() {
+        BadRequestException ex = assertThrows(BadRequestException.class, () -> prestamoService.updateStatusLoan(0,statusLoanRequestDto));
+        assertEquals("El id es incorrecto", ex.getMessage());
+    }
+
+    @Test
+    void testUpdateStatusLoan_BadRequestExceptionNull() {
+        BadRequestException ex = assertThrows(BadRequestException.class, () -> prestamoService.updateStatusLoan(null,statusLoanRequestDto));
+        assertEquals("El id es incorrecto", ex.getMessage());
+    }
+
+    @Test
+    void testUpdateStatusLoan_ResourceNotFoundException() {
+        Integer id = 99;
+        when(prestamoRepository.findById(id)).thenReturn(Optional.empty());
+
+        ResourceNotFoundException ex = assertThrows(ResourceNotFoundException.class, () -> prestamoService.updateStatusLoan(id, statusLoanRequestDto));
+        assertEquals("No se encontró el préstamo con el id: "+id, ex.getMessage());
+    }
+
+    @Test
+    void testUpdateStatusLoan_InternalServerErrorException() {
+        Integer id = 1;
+        when(prestamoRepository.findById(id)).thenReturn(Optional.of(prestamo));
+        doNothing().when(prestamoMapper).updateEstadoPrestamoFromDto(statusLoanRequestDto, prestamo);
+        when(prestamoRepository.save(prestamo)).thenThrow(new RuntimeException("DB error"));
+        InternalServerErrorException ex = assertThrows(InternalServerErrorException.class, () -> prestamoService.updateStatusLoan(id, statusLoanRequestDto));
+        assertEquals("Error al actualizar el estado del préstamo", ex.getMessage());
+    }
+
+    @Test
+    void testUpdateStatusLoan_Success() {
+        Integer id = 1;
+        when(prestamoRepository.findById(id)).thenReturn(Optional.of(prestamo));
+        doNothing().when(prestamoMapper).updateEstadoPrestamoFromDto(statusLoanRequestDto, prestamo);
+        when(prestamoRepository.save(prestamo)).thenReturn(prestamo);
+        when(prestamoMapper.toLoanResponseDto(prestamo)).thenReturn(loanResponseDto);
+
+        LoanResponseDto result = prestamoService.updateStatusLoan(id, statusLoanRequestDto);
+        assertNotNull(result);
+        assertEquals(new BigDecimal("4000"), result.totalAmount());
+        verify(prestamoRepository,times(1)).save(prestamo);
+    }
 }
