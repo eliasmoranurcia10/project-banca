@@ -41,6 +41,12 @@ public class ClienteMapperTest {
     }
 
     @Test
+    void testToClienteNull() {
+        Cliente cliente = clienteMapper.toCliente(null);
+        assertNull(cliente);
+    }
+
+    @Test
     void testUpdateClienteFromDto() {
         Cliente cliente = new Cliente(1,"Elias", "Moran", "75484848", "elias@gmail.com",new ArrayList<>(), new ArrayList<>());
 
@@ -66,6 +72,12 @@ public class ClienteMapperTest {
     }
 
     @Test
+    void testToClientResponseDtoNull() {
+        ClientResponseDto clientResponseDto = clienteMapper.toClientResponseDto(null);
+        assertNull(clientResponseDto);
+    }
+
+    @Test
     void testToClientsResponseDto() {
         List<Cliente> clientes = List.of(
                 new Cliente(1,"Elias", "Moran", "75484848", "elias@gmail.com",new ArrayList<>(), new ArrayList<>())
@@ -76,6 +88,12 @@ public class ClienteMapperTest {
         assertEquals(clientes.getFirst().getNombre(), clientsResponseDto.getFirst().name());
         assertEquals(clientes.getFirst().getApellido(), clientsResponseDto.getFirst().lastName());
         assertEquals(clientes.getFirst().getEmail(), clientsResponseDto.getFirst().email());
+    }
+
+    @Test
+    void testToClientsResponseDtoNull() {
+        List<ClientResponseDto> clientsResponseDto = clienteMapper.toClientsResponseDto(null);
+        assertNull(clientsResponseDto);
     }
 
 }
