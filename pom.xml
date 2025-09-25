@@ -11,7 +11,8 @@
 	<groupId>com.apibancario</groupId>
 	<artifactId>project-banca</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>project-banca</name>
+    <packaging>pom</packaging>
+    <name>project-banca</name>
 	<description>Contrucción de una API Rest para un sistema bancario en la cual se gestionarán los clientes, las cuentas, las tarjetas de crédito y débito, las transacciones, los préstamos y los pagos de los préstamos</description>
 	<url/>
 	<licenses>
@@ -20,7 +21,12 @@
 	<developers>
 		<developer/>
 	</developers>
-	<scm>
+    <modules>
+        <module>clientes-ms</module>
+        <module>prestamos-ms</module>
+        <module>operaciones-ms</module>
+    </modules>
+    <scm>
 		<connection/>
 		<developerConnection/>
 		<tag/>

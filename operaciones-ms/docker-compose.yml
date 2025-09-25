@@ -1,0 +1,38 @@
+services:
+  java_app_project_banca:
+    container_name: java_app_project_banca
+    image: project-banca-java-app:1.0.0
+    build: .
+    ports:
+      - "8081:8080"
+    environment:
+      - DATABASE_URL=jdbc:postgresql://postgres_server_banca:5432/banca_database
+      - DATABASE_USERNAME=elias
+      - DATABASE_PASSWORD=root
+    depends_on:
+      - postgres_server_banca
+
+  postgres_server_banca:
+    container_name: postgres_server_banca
+    image: postgres:latest
+    ports:
+      - '5433:5432'
+    environment:
+      POSTGRES_USER: elias
+      POSTGRES_DB: banca_database
+      POSTGRES_PASSWORD: root
+    volumes:
+      - database_vol_banca:/var/lib/postgrsql/data
+
+  pgadmin_project_banca:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "81:80"
+    depends_on:
+      - postgres_server_banca
+
+volumes:
+  database_vol_banca:
