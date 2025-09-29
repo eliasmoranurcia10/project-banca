@@ -1,22 +1,21 @@
 package com.apibancario.service.impl;
 
-import com.apibancario.project_banca.exception.BadRequestException;
-import com.apibancario.project_banca.exception.InternalServerErrorException;
-import com.apibancario.project_banca.exception.ResourceNotFoundException;
-import com.apibancario.project_banca.mapper.TarjetaMapper;
-import com.apibancario.project_banca.model.dto.tarjeta.CardPinRequestDto;
-import com.apibancario.project_banca.model.dto.tarjeta.CardRequestDto;
-import com.apibancario.project_banca.model.dto.tarjeta.CardResponseDto;
-import com.apibancario.project_banca.model.entity.Cuenta;
-import com.apibancario.project_banca.model.entity.Tarjeta;
-import com.apibancario.project_banca.repository.CuentaRepository;
-import com.apibancario.project_banca.repository.TarjetaRepository;
-import com.apibancario.project_banca.service.TarjetaService;
-import com.apibancario.project_banca.util.GeneradorUtil;
-import com.apibancario.project_banca.util.PasswordUtil;
+import com.apibancario.exception.BadRequestException;
+import com.apibancario.exception.InternalServerErrorException;
+import com.apibancario.exception.ResourceNotFoundException;
+import com.apibancario.feign.AccountFeignCard;
+import com.apibancario.mapper.TarjetaMapper;
+import com.apibancario.model.dto.tarjeta.CardPinRequestDto;
+import com.apibancario.model.dto.tarjeta.CardRequestDto;
+import com.apibancario.model.dto.tarjeta.CardResponseDto;
+import com.apibancario.model.entity.Tarjeta;
+import com.apibancario.repository.TarjetaRepository;
+import com.apibancario.service.TarjetaService;
+import com.apibancario.util.GeneradorUtil;
+import com.apibancario.util.PasswordUtil;
+import feign.FeignException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,15 +25,14 @@ import java.util.List;
 public class TarjetaServiceImpl implements TarjetaService {
 
     private final TarjetaRepository tarjetaRepository;
-    private final CuentaRepository cuentaRepository;
     private final TarjetaMapper tarjetaMapper;
+    private final AccountFeignCard accountFeignCard;
 
     @Override
     public List<CardResponseDto> listAll() {
         List<Tarjeta> tarjetas = tarjetaRepository.findAll().stream()
                 .peek(tarjeta -> {
                     tarjeta.setNumeroTarjeta(GeneradorUtil.ocultarNumeroUID(tarjeta.getNumeroTarjeta()));
-                    tarjeta.getCuenta().setNumeroCuenta(GeneradorUtil.ocultarNumeroUID(tarjeta.getCuenta().getNumeroCuenta()));
                 })
                 .toList();
         return tarjetaMapper.toCardsResponseDto(tarjetas);
@@ -52,6 +50,11 @@ public class TarjetaServiceImpl implements TarjetaService {
     @Override
     @Transactional
     public CardResponseDto save(CardRequestDto cardRequestDto) {
+        try {
+            accountFeignCard.findById(cardRequestDto.accountId());
+        } catch (FeignException.NotFound ex) {
+            throw new ResourceNotFoundException("No existe la cuenta con el id: "+cardRequestDto.accountId());
+        }
 
         Tarjeta tarjeta = tarjetaMapper.toTarjeta(cardRequestDto);
 
@@ -68,10 +71,6 @@ public class TarjetaServiceImpl implements TarjetaService {
         tarjeta.setPinTarjeta(PasswordUtil.hashPassword(tarjeta.getPinTarjeta()));
         tarjeta.setCvvTarjeta(PasswordUtil.hashPassword(GeneradorUtil.generarNumeroAleatorio(3)));
 
-        Cuenta cuenta = cuentaRepository.findById(cardRequestDto.accountId()).orElseThrow(
-                () -> new ResourceNotFoundException("No se encontró el id de la cuenta. id: "+ cardRequestDto.accountId())
-        );
-        tarjeta.setCuenta(cuenta);
         try{
             return tarjetaMapper.toCardResponseDto(tarjetaRepository.save(tarjeta));
         } catch (Exception ex) {

@@ -1,11 +1,10 @@
 package com.apibancario.controller;
 
-import com.apibancario.project_banca.model.dto.cliente.ClientResponseDto;
-import com.apibancario.project_banca.model.dto.pagoprestamo.LoanPayRequestDto;
-import com.apibancario.project_banca.model.dto.pagoprestamo.LoanPayResponseDto;
-import com.apibancario.project_banca.model.dto.prestamo.LoanResponseDto;
-import com.apibancario.project_banca.model.enums.EstadoPrestamo;
-import com.apibancario.project_banca.service.PagoPrestamoService;
+import com.apibancario.model.dto.pagoprestamo.LoanPayRequestDto;
+import com.apibancario.model.dto.pagoprestamo.LoanPayResponseDto;
+import com.apibancario.model.dto.prestamo.LoanResponseDto;
+import com.apibancario.model.enums.EstadoPrestamo;
+import com.apibancario.service.PagoPrestamoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,8 +39,7 @@ public class PagoPrestamoControllerTest {
 
     @BeforeEach
     void setUp() {
-        ClientResponseDto clientResponseDto = new ClientResponseDto(1,"Elias", "Moran","elias@gmail.com");
-        LoanResponseDto loanResponseDto = new LoanResponseDto(1,new BigDecimal("4000"), new BigDecimal("0.20"),14, new BigDecimal("400"), EstadoPrestamo.APROBADO, clientResponseDto );
+        LoanResponseDto loanResponseDto = new LoanResponseDto(1,new BigDecimal("4000"), new BigDecimal("0.20"),14, new BigDecimal("400"), EstadoPrestamo.APROBADO, 1 );
         loanPayResponseDto = new LoanPayResponseDto(1, new BigDecimal("400"), "19/09/2025 11:42:05", loanResponseDto);
         loanPayRequestDto = new LoanPayRequestDto(new BigDecimal("400"), 1);
     }

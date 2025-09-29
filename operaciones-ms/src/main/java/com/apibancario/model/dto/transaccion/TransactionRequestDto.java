@@ -1,12 +1,15 @@
 package com.apibancario.model.dto.transaccion;
 
-import com.apibancario.project_banca.model.enums.TipoTransaccion;
+import com.apibancario.model.enums.TipoTransaccion;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 
 public record TransactionRequestDto(
+        @NotNull(message = "El tipo de transacción es requerido")
         TipoTransaccion transactionType,
+
         @NotNull(message = "El monto es requerido")
         @Positive(message = "El Monto en un numero positivo")
         BigDecimal amount,
@@ -19,6 +22,8 @@ public record TransactionRequestDto(
         @Pattern(regexp = "\\d{4}", message = "La clave tiene 4 dígitos")
         String cardPin,
 
-        String RecipientAccountNumber
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @Positive(message = "El id de la cuenta destino debe ser positivo")
+        Integer recipientAccountId
 ) {
 }

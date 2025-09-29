@@ -1,21 +1,17 @@
 package com.apibancario.service.impl;
 
-import com.apibancario.project_banca.exception.BadRequestException;
-import com.apibancario.project_banca.exception.InternalServerErrorException;
-import com.apibancario.project_banca.exception.ResourceNotFoundException;
-import com.apibancario.project_banca.mapper.PagoPrestamoMapper;
-import com.apibancario.project_banca.mapper.PrestamoMapper;
-import com.apibancario.project_banca.model.dto.cliente.ClientResponseDto;
-import com.apibancario.project_banca.model.dto.pagoprestamo.LoanPayRequestDto;
-import com.apibancario.project_banca.model.dto.pagoprestamo.LoanPayResponseDto;
-import com.apibancario.project_banca.model.dto.prestamo.LoanResponseDto;
-import com.apibancario.project_banca.model.entity.Cliente;
-import com.apibancario.project_banca.model.entity.PagoPrestamo;
-import com.apibancario.project_banca.model.entity.Prestamo;
-import com.apibancario.project_banca.model.enums.EstadoPrestamo;
-import com.apibancario.project_banca.repository.ClienteRepository;
-import com.apibancario.project_banca.repository.PagoPrestamoRepository;
-import com.apibancario.project_banca.repository.PrestamoRepository;
+import com.apibancario.exception.BadRequestException;
+import com.apibancario.exception.InternalServerErrorException;
+import com.apibancario.exception.ResourceNotFoundException;
+import com.apibancario.mapper.PagoPrestamoMapper;
+import com.apibancario.model.dto.pagoprestamo.LoanPayRequestDto;
+import com.apibancario.model.dto.pagoprestamo.LoanPayResponseDto;
+import com.apibancario.model.dto.prestamo.LoanResponseDto;
+import com.apibancario.model.entity.PagoPrestamo;
+import com.apibancario.model.entity.Prestamo;
+import com.apibancario.model.enums.EstadoPrestamo;
+import com.apibancario.repository.PagoPrestamoRepository;
+import com.apibancario.repository.PrestamoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -52,15 +48,11 @@ public class PagoPrestamoServiceImplTest {
     private LoanPayResponseDto loanPayResponseDto;
 
     private Prestamo prestamo;
-    private LoanResponseDto loanResponseDto;
 
     @BeforeEach
     void setUp() {
-        Cliente cliente = new Cliente(1,"Elias", "Moran", "75484848", "elias@gmail.com",new ArrayList<>(), new ArrayList<>());
-        ClientResponseDto clientResponseDto = new ClientResponseDto(1,"Elias", "Moran","elias@gmail.com");
-
-        prestamo = new Prestamo(1,new BigDecimal("4000"), new BigDecimal("0.20"),14, new BigDecimal("400"), "APROBADO", cliente, new ArrayList<>());
-        loanResponseDto = new LoanResponseDto(1,new BigDecimal("4000"), new BigDecimal("0.20"),14, new BigDecimal("400"), EstadoPrestamo.APROBADO, clientResponseDto );
+        prestamo = new Prestamo(1,new BigDecimal("4000"), new BigDecimal("0.20"),14, new BigDecimal("400"), "APROBADO", 1, new ArrayList<>());
+        LoanResponseDto loanResponseDto = new LoanResponseDto(1, new BigDecimal("4000"), new BigDecimal("0.20"), 14, new BigDecimal("400"), EstadoPrestamo.APROBADO, 1);
 
         pagoPrestamo = new PagoPrestamo(1,new BigDecimal("400"), LocalDateTime.of(2025, 9,19,11,42,5), prestamo);
         loanPayRequestDto = new LoanPayRequestDto(new BigDecimal("400"), 1);
@@ -122,8 +114,7 @@ public class PagoPrestamoServiceImplTest {
 
     @Test
     void testSave_BadRequestExceptionSolicitado() {
-        Cliente cliente = new Cliente(1,"Elias", "Moran", "75484848", "elias@gmail.com",new ArrayList<>(), new ArrayList<>());
-        Prestamo prestamoSolicitado = new Prestamo(1,new BigDecimal("4000"), new BigDecimal("0.20"),14, new BigDecimal("400"), "SOLICITADO", cliente, new ArrayList<>());
+        Prestamo prestamoSolicitado = new Prestamo(1,new BigDecimal("4000"), new BigDecimal("0.20"),14, new BigDecimal("400"), "SOLICITADO", 1, new ArrayList<>());
         when(prestamoRepository.findById(loanPayRequestDto.loanId())).thenReturn(Optional.of(prestamoSolicitado));
         BadRequestException ex = assertThrows(BadRequestException.class, () -> pagoPrestamoService.save(loanPayRequestDto) );
         assertEquals("No puede realizar pagos al préstamo por encontrarse: "+ prestamoSolicitado.getEstado(), ex.getMessage());
@@ -131,8 +122,7 @@ public class PagoPrestamoServiceImplTest {
 
     @Test
     void testSave_BadRequestExceptionLiquidado() {
-        Cliente cliente = new Cliente(1,"Elias", "Moran", "75484848", "elias@gmail.com",new ArrayList<>(), new ArrayList<>());
-        Prestamo prestamoLiquidado = new Prestamo(1,new BigDecimal("4000"), new BigDecimal("0.20"),14, new BigDecimal("400"), "LIQUIDADO", cliente, new ArrayList<>());
+        Prestamo prestamoLiquidado = new Prestamo(1,new BigDecimal("4000"), new BigDecimal("0.20"),14, new BigDecimal("400"), "LIQUIDADO", 1, new ArrayList<>());
         when(prestamoRepository.findById(loanPayRequestDto.loanId())).thenReturn(Optional.of(prestamoLiquidado));
         BadRequestException ex = assertThrows(BadRequestException.class, () -> pagoPrestamoService.save(loanPayRequestDto) );
         assertEquals("No puede realizar pagos al préstamo por encontrarse: "+ prestamoLiquidado.getEstado(), ex.getMessage());

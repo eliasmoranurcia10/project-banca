@@ -1,6 +1,6 @@
 spring:
   application:
-    name: project-banca
+    name: clientes-ms
   profiles:
     active:
       - dev

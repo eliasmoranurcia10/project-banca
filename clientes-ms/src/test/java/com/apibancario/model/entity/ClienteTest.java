@@ -1,6 +1,5 @@
 package com.apibancario.model.entity;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -18,7 +17,6 @@ public class ClienteTest {
                 "Mendoza",
                 "78561545",
                 "juanmendoza@gmail.com",
-                new ArrayList<>(),
                 new ArrayList<>()
         );
 

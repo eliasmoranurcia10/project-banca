@@ -1,6 +1,6 @@
 package com.apibancario.model.dto.prestamo;
 
-import com.apibancario.project_banca.model.enums.EstadoPrestamo;
+import com.apibancario.model.enums.EstadoPrestamo;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
@@ -25,8 +25,8 @@ public record LoanRequestDto(
         @NotNull(message = "El estado del préstamo es obligatorio")
         EstadoPrestamo status,
 
-        @NotBlank(message = "El DNI no debe estar vacío")
-        @Pattern(regexp = "\\d{8}", message = "El DNI debe tener exactamente 8 dígitos")
-        String dni
+        @NotNull(message = "Agregar el id del cliente")
+        @Positive(message = "El id del cliente en un numero positivo")
+        Integer clientId
 ) {
 }

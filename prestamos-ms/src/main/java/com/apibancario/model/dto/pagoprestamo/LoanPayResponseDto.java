@@ -1,6 +1,6 @@
 package com.apibancario.model.dto.pagoprestamo;
 
-import com.apibancario.project_banca.model.dto.prestamo.LoanResponseDto;
+import com.apibancario.model.dto.prestamo.LoanResponseDto;
 
 import java.math.BigDecimal;
 

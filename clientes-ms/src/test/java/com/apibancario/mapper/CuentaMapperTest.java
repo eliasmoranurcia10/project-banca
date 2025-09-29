@@ -1,12 +1,12 @@
 package com.apibancario.mapper;
 
-import com.apibancario.project_banca.model.dto.cliente.ClientResponseDto;
-import com.apibancario.project_banca.model.dto.cuenta.AccountRequestDto;
-import com.apibancario.project_banca.model.dto.cuenta.AccountResponseDto;
-import com.apibancario.project_banca.model.dto.cuenta.PasswordRequestDto;
-import com.apibancario.project_banca.model.entity.Cliente;
-import com.apibancario.project_banca.model.entity.Cuenta;
-import com.apibancario.project_banca.model.enums.TipoCuenta;
+import com.apibancario.model.dto.cliente.ClientResponseDto;
+import com.apibancario.model.dto.cuenta.AccountRequestDto;
+import com.apibancario.model.dto.cuenta.AccountResponseDto;
+import com.apibancario.model.dto.cuenta.PasswordRequestDto;
+import com.apibancario.model.entity.Cliente;
+import com.apibancario.model.entity.Cuenta;
+import com.apibancario.model.enums.TipoCuenta;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
@@ -30,10 +30,10 @@ public class CuentaMapperTest {
 
     @BeforeEach
     void setUp() {
-        cliente = new Cliente(1,"Elias", "Moran", "75484848", "elias@gmail.com",new ArrayList<>(), new ArrayList<>());
+        cliente = new Cliente(1,"Elias", "Moran", "75484848", "elias@gmail.com",new ArrayList<>());
         ClientResponseDto clientResponseDto = new ClientResponseDto(1,"Elias", "Moran","elias@gmail.com");
 
-        cuenta = new Cuenta(1,"56445587889696", "AHORRO", "585898", new BigDecimal("40000.00"), cliente, new ArrayList<>(), new ArrayList<>());
+        cuenta = new Cuenta(1,"56445587889696", "AHORRO", "585898", new BigDecimal("40000.00"), cliente);
         accountRequestDto = new AccountRequestDto(TipoCuenta.AHORRO, "585898", new BigDecimal("40000.00"), 1);
         accountResponseDto = new AccountResponseDto(1,"56445587889696", TipoCuenta.AHORRO, clientResponseDto);
         passwordRequestDto = new PasswordRequestDto("585898", "050505");

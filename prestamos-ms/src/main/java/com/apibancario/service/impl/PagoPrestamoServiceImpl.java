@@ -1,16 +1,16 @@
 package com.apibancario.service.impl;
 
-import com.apibancario.project_banca.exception.BadRequestException;
-import com.apibancario.project_banca.exception.InternalServerErrorException;
-import com.apibancario.project_banca.exception.ResourceNotFoundException;
-import com.apibancario.project_banca.mapper.PagoPrestamoMapper;
-import com.apibancario.project_banca.model.dto.pagoprestamo.LoanPayRequestDto;
-import com.apibancario.project_banca.model.dto.pagoprestamo.LoanPayResponseDto;
-import com.apibancario.project_banca.model.entity.PagoPrestamo;
-import com.apibancario.project_banca.model.entity.Prestamo;
-import com.apibancario.project_banca.repository.PagoPrestamoRepository;
-import com.apibancario.project_banca.repository.PrestamoRepository;
-import com.apibancario.project_banca.service.PagoPrestamoService;
+import com.apibancario.exception.BadRequestException;
+import com.apibancario.exception.InternalServerErrorException;
+import com.apibancario.exception.ResourceNotFoundException;
+import com.apibancario.mapper.PagoPrestamoMapper;
+import com.apibancario.model.dto.pagoprestamo.LoanPayRequestDto;
+import com.apibancario.model.dto.pagoprestamo.LoanPayResponseDto;
+import com.apibancario.model.entity.PagoPrestamo;
+import com.apibancario.model.entity.Prestamo;
+import com.apibancario.repository.PagoPrestamoRepository;
+import com.apibancario.repository.PrestamoRepository;
+import com.apibancario.service.PagoPrestamoService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

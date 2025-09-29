@@ -1,7 +1,6 @@
 package com.apibancario.model.dto.prestamo;
 
-import com.apibancario.project_banca.model.dto.cliente.ClientRequestDto;
-import com.apibancario.project_banca.model.enums.EstadoPrestamo;
+import com.apibancario.model.enums.EstadoPrestamo;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -29,7 +28,7 @@ public class LoanRequestDtoTest {
                 new BigDecimal("0.30"),
                 14,
                 EstadoPrestamo.APROBADO,
-                "75482525"
+                1
         );
     }
 
@@ -40,7 +39,7 @@ public class LoanRequestDtoTest {
         assertEquals(new BigDecimal("0.30"), loanRequestDto.interestRate());
         assertEquals(14, loanRequestDto.monthsOfDeadline());
         assertEquals(EstadoPrestamo.APROBADO, loanRequestDto.status());
-        assertEquals("75482525", loanRequestDto.dni());
+        assertEquals(1, loanRequestDto.clientId());
     }
 
     @Test
@@ -56,7 +55,7 @@ public class LoanRequestDtoTest {
                 new BigDecimal("2.30"),
                 80,
                 EstadoPrestamo.APROBADO,
-                "75482525"
+                1
         );
 
         Set<ConstraintViolation<LoanRequestDto>> validationErrors = validator.validate(loanRequestDtoFail);

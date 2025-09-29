@@ -1,6 +1,6 @@
 package com.apibancario.model.dto.prestamo;
 
-import com.apibancario.project_banca.model.enums.EstadoPrestamo;
+import com.apibancario.model.enums.EstadoPrestamo;
 import jakarta.validation.constraints.NotNull;
 
 public record StatusLoanRequestDto(

@@ -1,7 +1,6 @@
 package com.apibancario.model.dto.transaccion;
 
-import com.apibancario.project_banca.model.dto.cliente.ClientRequestDto;
-import com.apibancario.project_banca.model.enums.TipoTransaccion;
+import com.apibancario.model.enums.TipoTransaccion;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -40,7 +39,7 @@ public class TransactionRequestDtoTest {
         assertEquals(new BigDecimal("40.00"), transactionRequestDto.amount());
         assertEquals("5456585856696365", transactionRequestDto.cardNumber());
         assertEquals("5447", transactionRequestDto.cardPin());
-        assertNull( transactionRequestDto.RecipientAccountNumber() );
+        assertNull( transactionRequestDto.RecipientAccountId() );
     }
 
     @Test

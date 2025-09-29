@@ -1,14 +1,14 @@
 package com.apibancario.service.impl;
 
-import com.apibancario.project_banca.exception.BadRequestException;
-import com.apibancario.project_banca.exception.InternalServerErrorException;
-import com.apibancario.project_banca.exception.ResourceNotFoundException;
-import com.apibancario.project_banca.mapper.ClienteMapper;
-import com.apibancario.project_banca.model.dto.cliente.ClientRequestDto;
-import com.apibancario.project_banca.model.dto.cliente.ClientResponseDto;
-import com.apibancario.project_banca.model.entity.Cliente;
-import com.apibancario.project_banca.repository.ClienteRepository;
-import com.apibancario.project_banca.service.ClienteService;
+import com.apibancario.exception.BadRequestException;
+import com.apibancario.exception.InternalServerErrorException;
+import com.apibancario.exception.ResourceNotFoundException;
+import com.apibancario.mapper.ClienteMapper;
+import com.apibancario.model.dto.cliente.ClientRequestDto;
+import com.apibancario.model.dto.cliente.ClientResponseDto;
+import com.apibancario.model.entity.Cliente;
+import com.apibancario.repository.ClienteRepository;
+import com.apibancario.service.ClienteService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

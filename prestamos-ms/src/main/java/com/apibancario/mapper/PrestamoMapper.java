@@ -1,16 +1,17 @@
 package com.apibancario.mapper;
 
-import com.apibancario.project_banca.model.dto.prestamo.LoanRequestDto;
-import com.apibancario.project_banca.model.dto.prestamo.LoanResponseDto;
-import com.apibancario.project_banca.model.dto.prestamo.StatusLoanRequestDto;
-import com.apibancario.project_banca.model.entity.Prestamo;
-import com.apibancario.project_banca.model.enums.EstadoPrestamo;
+import com.apibancario.model.dto.prestamo.LoanRequestDto;
+import com.apibancario.model.dto.prestamo.LoanResponseDto;
+import com.apibancario.model.dto.prestamo.StatusLoanRequestDto;
+import com.apibancario.model.entity.Prestamo;
+import com.apibancario.model.enums.EstadoPrestamo;
 import org.mapstruct.*;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {ClienteMapper.class})
+@Mapper(componentModel = "spring")
 public interface PrestamoMapper {
+
 
     @Mapping(target = "idPrestamo", ignore = true)
     @Mapping(target = "montoTotal", source = "totalAmount")
@@ -18,9 +19,10 @@ public interface PrestamoMapper {
     @Mapping(target = "plazoMeses", source = "monthsOfDeadline")
     @Mapping(target = "cuotaMensual", ignore = true)
     @Mapping(target = "estado", expression = "java(loanRequestDto.status().name())")
-    @Mapping(target = "cliente", ignore = true)
+    @Mapping(target = "idCliente", source = "clientId")
     @Mapping(target = "pagosPrestamo", ignore = true)
     Prestamo toPrestamo(LoanRequestDto loanRequestDto);
+
 
     @Mapping(target = "idPrestamo", ignore = true)
     @Mapping(target = "montoTotal", ignore = true)
@@ -29,7 +31,7 @@ public interface PrestamoMapper {
     @Mapping(target = "cuotaMensual", ignore = true)
     @Mapping(target = "pagosPrestamo", ignore = true)
     @Mapping(target = "estado", expression = "java(statusLoanRequestDto.status().name())")
-    @Mapping(target = "cliente", ignore = true)
+    @Mapping(target = "idCliente", ignore = true)
     void updateEstadoPrestamoFromDto(StatusLoanRequestDto statusLoanRequestDto, @MappingTarget Prestamo prestamo);
 
 
@@ -38,7 +40,7 @@ public interface PrestamoMapper {
     @Mapping(target = "interestRate", source = "tasaInteres")
     @Mapping(target = "monthsOfDeadline", source = "plazoMeses")
     @Mapping(target = "monthlyFee", source = "cuotaMensual")
-    @Mapping(target = "clientResponseDto", source = "cliente")
+    @Mapping(target = "clientId", source = "idCliente")
     @Mapping(target = "status", source = "estado", qualifiedByName ="estadoToStatus" )
     LoanResponseDto toLoanResponseDto(Prestamo prestamo);
     List<LoanResponseDto> toLoansResponseDto(List<Prestamo> prestamos);

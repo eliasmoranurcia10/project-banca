@@ -36,9 +36,8 @@ public class Tarjeta {
     @Column(name = "cvv_tarjeta", nullable = false)
     private String cvvTarjeta;
 
-    @ManyToOne
-    @JoinColumn(name = "id_cuenta")
-    private Cuenta cuenta;
+    @Column(name = "id_cuenta")
+    private Integer idCuenta;
 
     @OneToMany(mappedBy = "tarjeta")
     private List<Transaccion> transacciones;

@@ -1,6 +1,6 @@
 package com.apibancario.model.dto.tarjeta;
 
-import com.apibancario.project_banca.model.enums.TipoTarjeta;
+import com.apibancario.model.enums.TipoTarjeta;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;

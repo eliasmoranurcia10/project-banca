@@ -1,27 +1,19 @@
 package com.apibancario.controller;
 
-import com.apibancario.project_banca.exception.BadRequestException;
-import com.apibancario.project_banca.exception.ResourceNotFoundException;
-import com.apibancario.project_banca.model.dto.cliente.ClientRequestDto;
-import com.apibancario.project_banca.model.dto.cliente.ClientResponseDto;
-import com.apibancario.project_banca.model.entity.Cliente;
-import com.apibancario.project_banca.service.ClienteService;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.apibancario.exception.BadRequestException;
+import com.apibancario.exception.ResourceNotFoundException;
+import com.apibancario.model.dto.cliente.ClientRequestDto;
+import com.apibancario.model.dto.cliente.ClientResponseDto;
+import com.apibancario.service.ClienteService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.nio.file.ReadOnlyFileSystemException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -40,8 +32,6 @@ public class ClienteControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Test
     void testGetAllClients() throws Exception {

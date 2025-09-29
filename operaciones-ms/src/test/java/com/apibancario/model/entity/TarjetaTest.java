@@ -11,32 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TarjetaTest {
 
     private Tarjeta tarjeta;
-    private Cuenta cuenta;
-
-    @BeforeEach
-    void setUp() {
-
-        Cliente cliente = new Cliente(
-                1,
-                "Juan",
-                "Mendoza",
-                "78561545",
-                "juanmendoza@gmail.com",
-                new ArrayList<>(),
-                new ArrayList<>()
-        );
-
-        cuenta = new Cuenta(
-                1,
-                "54465265636895",
-                "AHORRO",
-                "455856",
-                new BigDecimal("10.50"),
-                cliente,
-                new ArrayList<>(),
-                new ArrayList<>()
-        );
-    }
 
     @Test
     void testTarjetaAllArgsConstructor() {
@@ -47,7 +21,7 @@ public class TarjetaTest {
                 "15/30",
                 "2526",
                 "548",
-                cuenta,
+                1,
                 new ArrayList<>()
         );
 
@@ -58,7 +32,7 @@ public class TarjetaTest {
         assertEquals("15/30", tarjeta.getFechaVencimiento());
         assertEquals("2526", tarjeta.getPinTarjeta());
         assertEquals("548", tarjeta.getCvvTarjeta());
-        assertEquals(cuenta, tarjeta.getCuenta());
+        assertEquals(1, tarjeta.getIdCuenta());
     }
 
     @Test
@@ -70,7 +44,7 @@ public class TarjetaTest {
         tarjeta.setFechaVencimiento("15/30");
         tarjeta.setPinTarjeta("2526");
         tarjeta.setCvvTarjeta("548");
-        tarjeta.setCuenta(cuenta);
+        tarjeta.setIdCuenta(1);
 
         assertNotNull(tarjeta);
         assertEquals(1, tarjeta.getIdTarjeta());
@@ -79,6 +53,6 @@ public class TarjetaTest {
         assertEquals("15/30", tarjeta.getFechaVencimiento());
         assertEquals("2526", tarjeta.getPinTarjeta());
         assertEquals("548", tarjeta.getCvvTarjeta());
-        assertEquals(cuenta, tarjeta.getCuenta());
+        assertEquals(1, tarjeta.getIdCuenta());
     }
 }

@@ -1,12 +1,8 @@
 package com.apibancario.controller.advice;
 
-import com.apibancario.project_banca.exception.BadRequestException;
-import com.apibancario.project_banca.exception.InternalServerErrorException;
-import com.apibancario.project_banca.exception.ResourceNotFoundException;
-import org.springframework.core.MethodParameter;
-import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.MethodArgumentNotValidException;
+import com.apibancario.exception.BadRequestException;
+import com.apibancario.exception.InternalServerErrorException;
+import com.apibancario.exception.ResourceNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

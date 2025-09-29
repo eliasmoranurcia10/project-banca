@@ -1,13 +1,11 @@
 package com.apibancario.mapper;
 
-import com.apibancario.project_banca.model.dto.cliente.ClientRequestDto;
-import com.apibancario.project_banca.model.dto.cliente.ClientResponseDto;
-import com.apibancario.project_banca.model.entity.Cliente;
+import com.apibancario.model.dto.cliente.ClientRequestDto;
+import com.apibancario.model.dto.cliente.ClientResponseDto;
+import com.apibancario.model.entity.Cliente;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +46,7 @@ public class ClienteMapperTest {
 
     @Test
     void testUpdateClienteFromDto() {
-        Cliente cliente = new Cliente(1,"Elias", "Moran", "75484848", "elias@gmail.com",new ArrayList<>(), new ArrayList<>());
+        Cliente cliente = new Cliente(1,"Elias", "Moran", "75484848", "elias@gmail.com",new ArrayList<>());
 
         clienteMapper.updateClienteFromDto(clientRequestDto, cliente);
 
@@ -61,7 +59,7 @@ public class ClienteMapperTest {
 
     @Test
     void testToClientResponseDto() {
-        Cliente cliente = new Cliente(1,"Elias", "Moran", "75484848", "elias@gmail.com",new ArrayList<>(), new ArrayList<>());
+        Cliente cliente = new Cliente(1,"Elias", "Moran", "75484848", "elias@gmail.com",new ArrayList<>());
 
         ClientResponseDto clientResponseDto = clienteMapper.toClientResponseDto(cliente);
 
@@ -80,7 +78,7 @@ public class ClienteMapperTest {
     @Test
     void testToClientsResponseDto() {
         List<Cliente> clientes = List.of(
-                new Cliente(1,"Elias", "Moran", "75484848", "elias@gmail.com",new ArrayList<>(), new ArrayList<>())
+                new Cliente(1,"Elias", "Moran", "75484848", "elias@gmail.com",new ArrayList<>())
         );
         List<ClientResponseDto> clientsResponseDto = clienteMapper.toClientsResponseDto(clientes);
 

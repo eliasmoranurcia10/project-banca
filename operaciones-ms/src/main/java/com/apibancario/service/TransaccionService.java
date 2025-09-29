@@ -1,7 +1,7 @@
 package com.apibancario.service;
 
-import com.apibancario.project_banca.model.dto.transaccion.TransactionRequestDto;
-import com.apibancario.project_banca.model.dto.transaccion.TransactionResponseDto;
+import com.apibancario.model.dto.transaccion.TransactionRequestDto;
+import com.apibancario.model.dto.transaccion.TransactionResponseDto;
 
 import java.util.List;
 

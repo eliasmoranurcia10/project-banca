@@ -1,6 +1,6 @@
 package com.apibancario.model.dto.cuenta;
 
-import com.apibancario.project_banca.model.enums.TipoCuenta;
+import com.apibancario.model.enums.TipoCuenta;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;

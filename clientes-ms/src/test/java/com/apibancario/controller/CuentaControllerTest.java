@@ -1,11 +1,11 @@
 package com.apibancario.controller;
 
-import com.apibancario.project_banca.model.dto.cliente.ClientResponseDto;
-import com.apibancario.project_banca.model.dto.cuenta.AccountRequestDto;
-import com.apibancario.project_banca.model.dto.cuenta.AccountResponseDto;
-import com.apibancario.project_banca.model.dto.cuenta.PasswordRequestDto;
-import com.apibancario.project_banca.model.enums.TipoCuenta;
-import com.apibancario.project_banca.service.CuentaService;
+import com.apibancario.model.dto.cliente.ClientResponseDto;
+import com.apibancario.model.dto.cuenta.AccountRequestDto;
+import com.apibancario.model.dto.cuenta.AccountResponseDto;
+import com.apibancario.model.dto.cuenta.PasswordRequestDto;
+import com.apibancario.model.enums.TipoCuenta;
+import com.apibancario.service.CuentaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

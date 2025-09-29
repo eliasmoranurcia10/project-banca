@@ -1,16 +1,16 @@
 package com.apibancario.mapper;
 
-import com.apibancario.project_banca.model.dto.tarjeta.CardRequestDto;
-import com.apibancario.project_banca.model.dto.tarjeta.CardResponseDto;
-import com.apibancario.project_banca.model.entity.Tarjeta;
-import com.apibancario.project_banca.model.enums.TipoTarjeta;
+import com.apibancario.model.dto.tarjeta.CardRequestDto;
+import com.apibancario.model.dto.tarjeta.CardResponseDto;
+import com.apibancario.model.entity.Tarjeta;
+import com.apibancario.model.enums.TipoTarjeta;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {CuentaMapper.class})
+@Mapper(componentModel = "spring")
 public interface TarjetaMapper {
 
     @Mapping(target = "idTarjeta", ignore = true)
@@ -19,15 +19,15 @@ public interface TarjetaMapper {
     @Mapping(target = "fechaVencimiento", ignore = true)
     @Mapping(target = "pinTarjeta", source = "cardPin")
     @Mapping(target = "cvvTarjeta", ignore = true)
-    @Mapping(target = "cuenta", ignore = true)
     @Mapping(target = "transacciones", ignore = true)
+    @Mapping(target = "idCuenta", source = "accountId")
     Tarjeta toTarjeta(CardRequestDto cardRequestDto);
 
     @Mapping(target = "cardId", source = "idTarjeta")
     @Mapping(target = "cardNumber", source = "numeroTarjeta")
     @Mapping(target = "cardType", source = "tipoTarjeta", qualifiedByName = "tipoTarjetaToCardType")
     @Mapping(target = "expirationDate", source = "fechaVencimiento")
-    @Mapping(target = "accountResponseDto", source = "cuenta")
+    @Mapping(target = "accountId", source = "idCuenta")
     CardResponseDto toCardResponseDto(Tarjeta tarjeta);
     List<CardResponseDto> toCardsResponseDto(List<Tarjeta> tarjetas);
 

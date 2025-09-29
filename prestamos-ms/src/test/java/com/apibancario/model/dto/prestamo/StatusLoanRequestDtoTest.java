@@ -1,8 +1,6 @@
 package com.apibancario.model.dto.prestamo;
 
-import com.apibancario.project_banca.model.dto.cliente.ClientRequestDto;
-import com.apibancario.project_banca.model.dto.cliente.ClientResponseDto;
-import com.apibancario.project_banca.model.enums.EstadoPrestamo;
+import com.apibancario.model.enums.EstadoPrestamo;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;

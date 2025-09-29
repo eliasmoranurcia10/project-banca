@@ -1,6 +1,0 @@
-spring:
-  application:
-    name: project-banca
-  profiles:
-    active:
-      - dev

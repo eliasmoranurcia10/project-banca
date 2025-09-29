@@ -1,6 +1,6 @@
 package com.apibancario.repository;
 
-import com.apibancario.project_banca.model.entity.Prestamo;
+import com.apibancario.model.entity.Prestamo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

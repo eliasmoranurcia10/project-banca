@@ -1,18 +1,15 @@
 package com.apibancario.controller;
 
-import com.apibancario.project_banca.model.dto.cliente.ClientResponseDto;
-import com.apibancario.project_banca.model.dto.cuenta.AccountResponseDto;
-import com.apibancario.project_banca.model.dto.tarjeta.CardResponseDto;
-import com.apibancario.project_banca.model.dto.transaccion.TransactionRequestDto;
-import com.apibancario.project_banca.model.dto.transaccion.TransactionResponseDto;
-import com.apibancario.project_banca.model.enums.TipoCuenta;
-import com.apibancario.project_banca.model.enums.TipoTarjeta;
-import com.apibancario.project_banca.model.enums.TipoTransaccion;
-import com.apibancario.project_banca.service.TransaccionService;
+
+import com.apibancario.model.dto.tarjeta.CardResponseDto;
+import com.apibancario.model.dto.transaccion.TransactionRequestDto;
+import com.apibancario.model.dto.transaccion.TransactionResponseDto;
+import com.apibancario.model.enums.TipoTarjeta;
+import com.apibancario.model.enums.TipoTransaccion;
+import com.apibancario.service.TransaccionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
@@ -45,9 +42,7 @@ public class TransaccionControllerTest {
 
     @BeforeEach
     void sepUt() {
-        ClientResponseDto clientResponseDto = new ClientResponseDto(1,"Elias", "Moran","elias@gmail.com");
-        AccountResponseDto accountResponseDto = new AccountResponseDto(1,"56445587889696", TipoCuenta.AHORRO, clientResponseDto);
-        CardResponseDto cardResponseDto = new CardResponseDto(1, "4552366895916954", TipoTarjeta.DEBITO, "09/30", accountResponseDto);
+        CardResponseDto cardResponseDto = new CardResponseDto(1, "4552366895916954", TipoTarjeta.DEBITO, "09/30", 1);
         transactionResponseDto = new TransactionResponseDto(
                 1,
                 TipoTransaccion.DEPOSITO,

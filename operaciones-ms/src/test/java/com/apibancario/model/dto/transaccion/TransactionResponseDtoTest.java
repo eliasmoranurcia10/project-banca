@@ -1,11 +1,8 @@
 package com.apibancario.model.dto.transaccion;
 
-import com.apibancario.project_banca.model.dto.cliente.ClientResponseDto;
-import com.apibancario.project_banca.model.dto.cuenta.AccountResponseDto;
-import com.apibancario.project_banca.model.dto.tarjeta.CardResponseDto;
-import com.apibancario.project_banca.model.enums.TipoCuenta;
-import com.apibancario.project_banca.model.enums.TipoTarjeta;
-import com.apibancario.project_banca.model.enums.TipoTransaccion;
+import com.apibancario.model.dto.tarjeta.CardResponseDto;
+import com.apibancario.model.enums.TipoTarjeta;
+import com.apibancario.model.enums.TipoTransaccion;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,26 +18,12 @@ public class TransactionResponseDtoTest {
     @BeforeEach
     void setUp() {
 
-        ClientResponseDto clientResponseDto = new ClientResponseDto(
-                1,
-                "Juan",
-                "Pérez",
-                "juan.perez@mail.com"
-        );
-
-        AccountResponseDto accountResponseDto = new AccountResponseDto(
-                1,
-                "45455858595652",
-                TipoCuenta.AHORRO,
-                clientResponseDto
-        );
-
         cardResponseDto = new CardResponseDto(
                 1,
                 "5654585625865968",
                 TipoTarjeta.DEBITO,
                 "04/30",
-                accountResponseDto
+                1
         );
 
         transactionResponseDto = new TransactionResponseDto(
@@ -60,6 +43,6 @@ public class TransactionResponseDtoTest {
         assertEquals(TipoTransaccion.DEPOSITO, transactionResponseDto.transactionType());
         assertEquals(new BigDecimal("550.00"), transactionResponseDto.amount());
         assertEquals(cardResponseDto, transactionResponseDto.cardResponseDto());
-        assertNull(transactionResponseDto.recipientAccountResponseDto());
+        assertNull(transactionResponseDto.RecipientAccountId());
     }
 }

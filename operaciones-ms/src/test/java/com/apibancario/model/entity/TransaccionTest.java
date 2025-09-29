@@ -16,26 +16,6 @@ public class TransaccionTest {
 
     @BeforeEach
     void setUp() {
-        Cliente cliente = new Cliente(
-                1,
-                "Juan",
-                "Mendoza",
-                "78561545",
-                "juanmendoza@gmail.com",
-                new ArrayList<>(),
-                new ArrayList<>()
-        );
-
-        Cuenta cuenta = new Cuenta(
-                1,
-                "54465265636895",
-                "AHORRO",
-                "455856",
-                new BigDecimal("10.50"),
-                cliente,
-                new ArrayList<>(),
-                new ArrayList<>()
-        );
 
         tarjeta = new Tarjeta(
                 1,
@@ -44,7 +24,7 @@ public class TransaccionTest {
                 "15/30",
                 "2526",
                 "548",
-                cuenta,
+                1,
                 new ArrayList<>()
         );
     }
@@ -66,7 +46,7 @@ public class TransaccionTest {
         assertEquals(new BigDecimal("30.00"), transaccion.getMonto());
         assertEquals(LocalDateTime.of(2025, 9, 18, 10, 30, 0), transaccion.getFecha());
         assertEquals(tarjeta, transaccion.getTarjeta());
-        assertNull(transaccion.getCuentaDestino());
+        assertNull(transaccion.getIdCuentaDestino());
 
     }
 
@@ -78,7 +58,7 @@ public class TransaccionTest {
         transaccion.setMonto(new BigDecimal("30.00"));
         transaccion.setFecha(LocalDateTime.of(2025, 9, 18, 10, 30, 0));
         transaccion.setTarjeta(tarjeta);
-        transaccion.setCuentaDestino(null);
+        transaccion.setIdCuentaDestino(null);
 
         assertNotNull(transaccion);
         assertEquals(1, transaccion.getIdTransaccion());
@@ -86,6 +66,6 @@ public class TransaccionTest {
         assertEquals(new BigDecimal("30.00"), transaccion.getMonto());
         assertEquals(LocalDateTime.of(2025, 9, 18, 10, 30, 0), transaccion.getFecha());
         assertEquals(tarjeta, transaccion.getTarjeta());
-        assertNull(transaccion.getCuentaDestino());
+        assertNull(transaccion.getIdCuentaDestino());
     }
 }

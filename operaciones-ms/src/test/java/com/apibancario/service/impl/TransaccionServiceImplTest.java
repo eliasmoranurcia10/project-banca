@@ -1,27 +1,18 @@
 package com.apibancario.service.impl;
 
-import com.apibancario.project_banca.exception.BadRequestException;
-import com.apibancario.project_banca.exception.InternalServerErrorException;
-import com.apibancario.project_banca.exception.ResourceNotFoundException;
-import com.apibancario.project_banca.mapper.TarjetaMapper;
-import com.apibancario.project_banca.mapper.TransaccionMapper;
-import com.apibancario.project_banca.model.dto.cliente.ClientResponseDto;
-import com.apibancario.project_banca.model.dto.cuenta.AccountResponseDto;
-import com.apibancario.project_banca.model.dto.tarjeta.CardResponseDto;
-import com.apibancario.project_banca.model.dto.transaccion.TransactionRequestDto;
-import com.apibancario.project_banca.model.dto.transaccion.TransactionResponseDto;
-import com.apibancario.project_banca.model.entity.Cliente;
-import com.apibancario.project_banca.model.entity.Cuenta;
-import com.apibancario.project_banca.model.entity.Tarjeta;
-import com.apibancario.project_banca.model.entity.Transaccion;
-import com.apibancario.project_banca.model.enums.TipoCuenta;
-import com.apibancario.project_banca.model.enums.TipoTarjeta;
-import com.apibancario.project_banca.model.enums.TipoTransaccion;
-import com.apibancario.project_banca.repository.CuentaRepository;
-import com.apibancario.project_banca.repository.TarjetaRepository;
-import com.apibancario.project_banca.repository.TransaccionRepository;
-import com.apibancario.project_banca.util.GeneradorUtil;
-import com.apibancario.project_banca.util.PasswordUtil;
+import com.apibancario.exception.BadRequestException;
+import com.apibancario.exception.ResourceNotFoundException;
+import com.apibancario.mapper.TransaccionMapper;
+import com.apibancario.model.dto.tarjeta.CardResponseDto;
+import com.apibancario.model.dto.transaccion.TransactionRequestDto;
+import com.apibancario.model.dto.transaccion.TransactionResponseDto;
+import com.apibancario.model.entity.Tarjeta;
+import com.apibancario.model.entity.Transaccion;
+import com.apibancario.model.enums.TipoTarjeta;
+import com.apibancario.model.enums.TipoTransaccion;
+import com.apibancario.repository.TarjetaRepository;
+import com.apibancario.repository.TransaccionRepository;
+import com.apibancario.util.PasswordUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,9 +40,6 @@ public class TransaccionServiceImplTest {
     private TarjetaRepository tarjetaRepository;
 
     @Mock
-    private CuentaRepository cuentaRepository;
-
-    @Mock
     private TransaccionMapper transaccionMapper;
 
     @InjectMocks
@@ -71,24 +59,12 @@ public class TransaccionServiceImplTest {
     private TransactionResponseDto transactionResponseDto3;
     private TransactionResponseDto transactionResponseDto4;
     private Tarjeta tarjeta;
-    private Cuenta cuentaDestino;
 
     @BeforeEach
     void setUp() {
-        Cliente cliente = new Cliente(1,"Elias", "Moran", "75484848", "elias@gmail.com",new ArrayList<>(), new ArrayList<>());
-        Cliente cliente2 = new Cliente(2,"David", "Bernal", "42585956", "david@gmail.com",new ArrayList<>(), new ArrayList<>());
-        Cuenta cuenta = new Cuenta(1,"56445587889696", "AHORRO", "585898", new BigDecimal("40000.00"), cliente, new ArrayList<>(), new ArrayList<>());
 
-        tarjeta = new Tarjeta(1, "4552366895916954", "DEBITO", "09/30", "5058", "548", cuenta, new ArrayList<>());
-        cuentaDestino = new Cuenta(2,"22225587838622", "AHORRO", "020202", new BigDecimal("60000.00"), cliente2, new ArrayList<>(), new ArrayList<>());
-
-        ClientResponseDto clientResponseDto = new ClientResponseDto(1,"Elias", "Moran","elias@gmail.com");
-        ClientResponseDto clientResponseDto2 = new ClientResponseDto(2,"David", "Bernal","david@gmail.com");
-        AccountResponseDto accountResponseDto = new AccountResponseDto(1,"56445587889696", TipoCuenta.AHORRO, clientResponseDto);
-
-        CardResponseDto cardResponseDto = new CardResponseDto(1, "4552366895916954", TipoTarjeta.DEBITO, "09/30", accountResponseDto);
-        AccountResponseDto recipientAccountResponseDto = new AccountResponseDto(2,"22225587838622", TipoCuenta.AHORRO, clientResponseDto2);
-
+        tarjeta = new Tarjeta(1, "4552366895916954", "DEBITO", "09/30", "5058", "548", 1, new ArrayList<>());
+        CardResponseDto cardResponseDto = new CardResponseDto(1, "4552366895916954", TipoTarjeta.DEBITO, "09/30", 1);
 
         transaccion = new Transaccion(
                 1,
@@ -105,7 +81,7 @@ public class TransaccionServiceImplTest {
                 new BigDecimal("150.00"),
                 LocalDateTime.of(2025,9,9,5,16,42),
                 tarjeta,
-                cuentaDestino
+                1
         );
 
         transaccion3 = new Transaccion(
@@ -123,7 +99,7 @@ public class TransaccionServiceImplTest {
                 new BigDecimal("150.00"),
                 LocalDateTime.of(2025,9,9,5,16,42),
                 tarjeta,
-                cuentaDestino
+                1
         );
 
         transactionRequestDto = new TransactionRequestDto(
@@ -139,7 +115,7 @@ public class TransaccionServiceImplTest {
                 new BigDecimal("150.00"),
                 "4552366895916954",
                 "5058",
-                "22225587838622"
+                1
         );
 
         transactionRequestDto3 = new TransactionRequestDto(
@@ -155,7 +131,7 @@ public class TransaccionServiceImplTest {
                 new BigDecimal("150.00"),
                 "4552366895916954",
                 "5058",
-                "22225587838622"
+                1
         );
 
         transactionResponseDto = new TransactionResponseDto(
@@ -173,7 +149,7 @@ public class TransaccionServiceImplTest {
                 new BigDecimal("150.00"),
                 "09/09/2025 10:16:42",
                 cardResponseDto,
-                recipientAccountResponseDto
+                1
         );
 
         transactionResponseDto3 = new TransactionResponseDto(
@@ -191,7 +167,7 @@ public class TransaccionServiceImplTest {
                 new BigDecimal("150.00"),
                 "09/09/2025 10:16:42",
                 cardResponseDto,
-                recipientAccountResponseDto
+                1
         );
 
 
@@ -283,23 +259,6 @@ public class TransaccionServiceImplTest {
     }
 
     @Test
-    void testSave_BadRequestExceptionDestinoIncorrecto() {
-        when(transaccionMapper.toTransaccion(transactionRequestDto2)).thenReturn(transaccion2);
-        when(tarjetaRepository.findByNumeroTarjeta(transactionRequestDto2.cardNumber())).thenReturn(Optional.of(tarjeta));
-
-        try( MockedStatic<PasswordUtil> utilMock = Mockito.mockStatic(PasswordUtil.class) ) {
-            utilMock.when(() -> PasswordUtil.matches(transactionRequestDto2.cardPin(), tarjeta.getPinTarjeta()))
-                    .thenReturn(true);
-            transaccion2.setTarjeta(tarjeta);
-
-            when(cuentaRepository.findByNumeroCuenta(transactionRequestDto2.RecipientAccountNumber())).thenReturn(Optional.empty());
-
-            BadRequestException ex = assertThrows(BadRequestException.class,() -> transaccionService.save(transactionRequestDto2));
-            assertEquals("Número de cuenta de destino incorrecto", ex.getMessage());
-        }
-    }
-
-    @Test
     void testSave_BadRequestExceptionTransaction() {
         when(transaccionMapper.toTransaccion(transactionRequestDto2)).thenReturn(transaccion2);
         when(tarjetaRepository.findByNumeroTarjeta(transactionRequestDto2.cardNumber())).thenReturn(Optional.of(tarjeta));
@@ -309,81 +268,12 @@ public class TransaccionServiceImplTest {
                     .thenReturn(true);
             transaccion2.setTarjeta(tarjeta);
 
-            when(cuentaRepository.findByNumeroCuenta(transactionRequestDto2.RecipientAccountNumber())).thenReturn(Optional.of(cuentaDestino));
-            transaccion2.setCuentaDestino(cuentaDestino);
-
             when(transaccionRepository.save(transaccion2)).thenThrow( new RuntimeException("DB error"));
 
             BadRequestException ex = assertThrows(BadRequestException.class,() -> transaccionService.save(transactionRequestDto2));
             assertEquals("Error al crear nueva tarjeta, ingrese los datos correctos", ex.getMessage());
         }
     }
-
-    @Test
-    void testSave_InternalServerErrorExceptionErrorRetiro() {
-        when(transaccionMapper.toTransaccion(transactionRequestDto2)).thenReturn(transaccion2);
-        when(tarjetaRepository.findByNumeroTarjeta(transactionRequestDto2.cardNumber())).thenReturn(Optional.of(tarjeta));
-
-        try( MockedStatic<PasswordUtil> utilMock = Mockito.mockStatic(PasswordUtil.class) ) {
-            utilMock.when(() -> PasswordUtil.matches(transactionRequestDto2.cardPin(), tarjeta.getPinTarjeta()))
-                    .thenReturn(true);
-            transaccion2.setTarjeta(tarjeta);
-
-            when(cuentaRepository.findByNumeroCuenta(transactionRequestDto2.RecipientAccountNumber())).thenReturn(Optional.of(cuentaDestino));
-            transaccion2.setCuentaDestino(cuentaDestino);
-
-            when(cuentaRepository.save(cuentaDestino)).thenThrow( new RuntimeException("DB error"));
-
-            InternalServerErrorException ex = assertThrows(InternalServerErrorException.class,() -> transaccionService.save(transactionRequestDto2));
-            assertEquals("Error en Retiro", ex.getMessage());
-        }
-    }
-
-    @Test
-    void testSave_InternalServerErrorExceptionErrorDeposito() {
-        when(transaccionMapper.toTransaccion(transactionRequestDto2)).thenReturn(transaccion2);
-        when(tarjetaRepository.findByNumeroTarjeta(transactionRequestDto2.cardNumber())).thenReturn(Optional.of(tarjeta));
-
-        try( MockedStatic<PasswordUtil> utilMock = Mockito.mockStatic(PasswordUtil.class) ) {
-            utilMock.when(() -> PasswordUtil.matches(transactionRequestDto2.cardPin(), tarjeta.getPinTarjeta()))
-                    .thenReturn(true);
-            transaccion2.setTarjeta(tarjeta);
-
-            when(cuentaRepository.findByNumeroCuenta(transactionRequestDto2.RecipientAccountNumber())).thenReturn(Optional.of(cuentaDestino));
-            transaccion2.setCuentaDestino(cuentaDestino);
-
-            when(cuentaRepository.save(tarjeta.getCuenta())).thenReturn(tarjeta.getCuenta());
-            when(cuentaRepository.save(cuentaDestino)).thenThrow( new RuntimeException("DB error"));
-
-            InternalServerErrorException ex = assertThrows(InternalServerErrorException.class,() -> transaccionService.save(transactionRequestDto2));
-            assertEquals("Error en depósito", ex.getMessage());
-        }
-    }
-
-    @Test
-    void testSave_BadRequestExceptionFondosInsuficientes() {
-        Cliente cliente = new Cliente(1,"Elias", "Moran", "75484848", "elias@gmail.com",new ArrayList<>(), new ArrayList<>());
-        Cuenta cuentaSinCash = new Cuenta(1,"56445587889696", "AHORRO", "585898", new BigDecimal("0.00"), cliente, new ArrayList<>(), new ArrayList<>());
-
-        Tarjeta tarjetaSinCash = new Tarjeta(1, "4552366895916954", "DEBITO", "09/30", "5058", "548", cuentaSinCash, new ArrayList<>());
-
-
-        when(transaccionMapper.toTransaccion(transactionRequestDto2)).thenReturn(transaccion2);
-        when(tarjetaRepository.findByNumeroTarjeta(transactionRequestDto2.cardNumber())).thenReturn(Optional.of(tarjetaSinCash));
-
-        try( MockedStatic<PasswordUtil> utilMock = Mockito.mockStatic(PasswordUtil.class) ) {
-            utilMock.when(() -> PasswordUtil.matches(transactionRequestDto2.cardPin(), tarjeta.getPinTarjeta()))
-                    .thenReturn(true);
-            transaccion2.setTarjeta(tarjeta);
-
-            when(cuentaRepository.findByNumeroCuenta(transactionRequestDto2.RecipientAccountNumber())).thenReturn(Optional.of(cuentaDestino));
-            transaccion2.setCuentaDestino(cuentaDestino);
-
-            BadRequestException ex = assertThrows(BadRequestException.class,() -> transaccionService.save(transactionRequestDto2));
-            assertEquals("Fondos insuficientes", ex.getMessage());
-        }
-    }
-
 
     @Test
     void testSave_SuccessDeposito() {
@@ -437,9 +327,6 @@ public class TransaccionServiceImplTest {
             utilMock.when(() -> PasswordUtil.matches(transactionRequestDto4.cardPin(), tarjeta.getPinTarjeta()))
                     .thenReturn(true);
             transaccion4.setTarjeta(tarjeta);
-
-            when(cuentaRepository.findByNumeroCuenta(transactionRequestDto4.RecipientAccountNumber()))
-                    .thenReturn(Optional.of(cuentaDestino));
 
             when(transaccionRepository.save(transaccion4)).thenReturn(transaccion4);
             when(transaccionMapper.toTransactionResponseDto(transaccion4)).thenReturn(transactionResponseDto4);

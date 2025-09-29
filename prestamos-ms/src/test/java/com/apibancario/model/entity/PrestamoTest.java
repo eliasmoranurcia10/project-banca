@@ -11,20 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PrestamoTest {
 
     private Prestamo prestamo;
-    private Cliente cliente;
-
-    @BeforeEach
-    void setUp() {
-        cliente = new Cliente(
-                1,
-                "Juan",
-                "Mendoza",
-                "78561545",
-                "juanmendoza@gmail.com",
-                new ArrayList<>(),
-                new ArrayList<>()
-        );
-    }
 
     @Test
     void testPrestamoAllArgsConstructor() {
@@ -35,7 +21,7 @@ public class PrestamoTest {
                 12,
                 new BigDecimal("300.00"),
                 "APROBADO",
-                cliente,
+                1,
                 new ArrayList<>()
         );
 
@@ -46,7 +32,7 @@ public class PrestamoTest {
         assertEquals(12, prestamo.getPlazoMeses());
         assertEquals(new BigDecimal("300.00"), prestamo.getCuotaMensual());
         assertEquals("APROBADO", prestamo.getEstado());
-        assertEquals(cliente, prestamo.getCliente());
+        assertEquals(1, prestamo.getIdCliente());
     }
 
     @Test
@@ -58,7 +44,7 @@ public class PrestamoTest {
         prestamo.setPlazoMeses(12);
         prestamo.setCuotaMensual(new BigDecimal("300.00"));
         prestamo.setEstado("APROBADO");
-        prestamo.setCliente(cliente);
+        prestamo.setIdCliente(1);
 
         assertNotNull(prestamo);
         assertEquals(1, prestamo.getIdPrestamo());
@@ -67,7 +53,7 @@ public class PrestamoTest {
         assertEquals(12, prestamo.getPlazoMeses());
         assertEquals(new BigDecimal("300.00"), prestamo.getCuotaMensual());
         assertEquals("APROBADO", prestamo.getEstado());
-        assertEquals(cliente, prestamo.getCliente());
+        assertEquals(1, prestamo.getIdCliente());
     }
 
 }

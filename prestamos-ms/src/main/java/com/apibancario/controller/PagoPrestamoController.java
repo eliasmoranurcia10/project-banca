@@ -1,8 +1,8 @@
 package com.apibancario.controller;
 
-import com.apibancario.project_banca.model.dto.pagoprestamo.LoanPayRequestDto;
-import com.apibancario.project_banca.model.dto.pagoprestamo.LoanPayResponseDto;
-import com.apibancario.project_banca.service.PagoPrestamoService;
+import com.apibancario.model.dto.pagoprestamo.LoanPayRequestDto;
+import com.apibancario.model.dto.pagoprestamo.LoanPayResponseDto;
+import com.apibancario.service.PagoPrestamoService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

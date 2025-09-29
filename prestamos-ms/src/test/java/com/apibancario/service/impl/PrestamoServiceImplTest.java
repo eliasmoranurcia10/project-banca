@@ -1,31 +1,20 @@
 package com.apibancario.service.impl;
 
-import com.apibancario.project_banca.exception.BadRequestException;
-import com.apibancario.project_banca.exception.InternalServerErrorException;
-import com.apibancario.project_banca.exception.ResourceNotFoundException;
-import com.apibancario.project_banca.mapper.CuentaMapper;
-import com.apibancario.project_banca.mapper.PrestamoMapper;
-import com.apibancario.project_banca.model.dto.cliente.ClientResponseDto;
-import com.apibancario.project_banca.model.dto.cuenta.AccountRequestDto;
-import com.apibancario.project_banca.model.dto.cuenta.AccountResponseDto;
-import com.apibancario.project_banca.model.dto.cuenta.PasswordRequestDto;
-import com.apibancario.project_banca.model.dto.prestamo.LoanRequestDto;
-import com.apibancario.project_banca.model.dto.prestamo.LoanResponseDto;
-import com.apibancario.project_banca.model.dto.prestamo.StatusLoanRequestDto;
-import com.apibancario.project_banca.model.entity.Cliente;
-import com.apibancario.project_banca.model.entity.Cuenta;
-import com.apibancario.project_banca.model.entity.Prestamo;
-import com.apibancario.project_banca.model.enums.EstadoPrestamo;
-import com.apibancario.project_banca.model.enums.TipoCuenta;
-import com.apibancario.project_banca.repository.ClienteRepository;
-import com.apibancario.project_banca.repository.CuentaRepository;
-import com.apibancario.project_banca.repository.PrestamoRepository;
+import com.apibancario.exception.BadRequestException;
+import com.apibancario.exception.InternalServerErrorException;
+import com.apibancario.exception.ResourceNotFoundException;
+import com.apibancario.mapper.PrestamoMapper;
+import com.apibancario.model.dto.prestamo.LoanRequestDto;
+import com.apibancario.model.dto.prestamo.LoanResponseDto;
+import com.apibancario.model.dto.prestamo.StatusLoanRequestDto;
+import com.apibancario.model.entity.Prestamo;
+import com.apibancario.model.enums.EstadoPrestamo;
+import com.apibancario.repository.PrestamoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.internal.stubbing.answers.DoesNothing;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
@@ -43,9 +32,6 @@ public class PrestamoServiceImplTest {
     private PrestamoRepository prestamoRepository;
 
     @Mock
-    private ClienteRepository clienteRepository;
-
-    @Mock
     private PrestamoMapper prestamoMapper;
 
     @InjectMocks
@@ -55,16 +41,13 @@ public class PrestamoServiceImplTest {
     private LoanRequestDto loanRequestDto;
     private LoanResponseDto loanResponseDto;
     private StatusLoanRequestDto statusLoanRequestDto;
-    private Cliente cliente;
 
     @BeforeEach
     void setUp() {
-        cliente = new Cliente(1,"Elias", "Moran", "75484848", "elias@gmail.com",new ArrayList<>(), new ArrayList<>());
-        ClientResponseDto clientResponseDto = new ClientResponseDto(1,"Elias", "Moran","elias@gmail.com");
 
-        prestamo = new Prestamo(1,new BigDecimal("4000"), new BigDecimal("0.20"),14, new BigDecimal("400"), "APROBADO", cliente, new ArrayList<>());
-        loanRequestDto = new LoanRequestDto(new BigDecimal("4000"), new BigDecimal("0.20"),14, EstadoPrestamo.APROBADO, "75484848");
-        loanResponseDto = new LoanResponseDto(1,new BigDecimal("4000"), new BigDecimal("0.20"),14, new BigDecimal("400"), EstadoPrestamo.APROBADO, clientResponseDto );
+        prestamo = new Prestamo(1,new BigDecimal("4000"), new BigDecimal("0.20"),14, new BigDecimal("400"), "APROBADO", 1, new ArrayList<>());
+        loanRequestDto = new LoanRequestDto(new BigDecimal("4000"), new BigDecimal("0.20"),14, EstadoPrestamo.APROBADO, 1);
+        loanResponseDto = new LoanResponseDto(1,new BigDecimal("4000"), new BigDecimal("0.20"),14, new BigDecimal("400"), EstadoPrestamo.APROBADO, 1 );
         statusLoanRequestDto = new StatusLoanRequestDto(EstadoPrestamo.LIQUIDADO);
     }
 
@@ -90,7 +73,6 @@ public class PrestamoServiceImplTest {
 
     @Test
     void testFindById_BadRequestExceptionNull() {
-        Integer id= null;
         BadRequestException ex = assertThrows(BadRequestException.class, () -> prestamoService.findById(null) );
         assertEquals("El id es incorrecto", ex.getMessage());
     }
@@ -117,18 +99,8 @@ public class PrestamoServiceImplTest {
     }
 
     @Test
-    void testSave_ResourceNotFoundException() {
-        when(prestamoMapper.toPrestamo(loanRequestDto)).thenReturn(prestamo);
-        when(clienteRepository.findByDni(loanRequestDto.dni())).thenReturn(Optional.empty());
-
-        ResourceNotFoundException ex = assertThrows(ResourceNotFoundException.class, () -> prestamoService.save(loanRequestDto));
-        assertEquals("No se encontró el dni del cliente", ex.getMessage());
-    }
-
-    @Test
     void testSave_BadRequestException() {
         when(prestamoMapper.toPrestamo(loanRequestDto)).thenReturn(prestamo);
-        when(clienteRepository.findByDni(loanRequestDto.dni())).thenReturn(Optional.of(cliente));
         when(prestamoRepository.save(prestamo)).thenThrow(new RuntimeException("DB error"));
 
         BadRequestException ex = assertThrows(BadRequestException.class, () -> prestamoService.save(loanRequestDto));
@@ -138,14 +110,12 @@ public class PrestamoServiceImplTest {
     @Test
     void testSave_Success() {
         when(prestamoMapper.toPrestamo(loanRequestDto)).thenReturn(prestamo);
-        when(clienteRepository.findByDni(loanRequestDto.dni())).thenReturn(Optional.of(cliente));
         when(prestamoRepository.save(prestamo)).thenReturn(prestamo);
         when(prestamoMapper.toLoanResponseDto(prestamo)).thenReturn(loanResponseDto);
 
         LoanResponseDto result = prestamoService.save(loanRequestDto);
         assertNotNull(result);
         assertEquals(new BigDecimal("4000"), result.totalAmount());
-        verify(clienteRepository, times(1)).findByDni(loanRequestDto.dni());
     }
 
     @Test

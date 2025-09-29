@@ -16,15 +16,6 @@ public class PagoPrestamoTest {
 
     @BeforeEach
     void setUp() {
-        Cliente cliente = new Cliente(
-                1,
-                "Juan",
-                "Mendoza",
-                "78561545",
-                "juanmendoza@gmail.com",
-                new ArrayList<>(),
-                new ArrayList<>()
-        );
 
         prestamo = new Prestamo(
                 1,
@@ -33,7 +24,7 @@ public class PagoPrestamoTest {
                 12,
                 new BigDecimal("300.00"),
                 "APROBADO",
-                cliente,
+                1,
                 new ArrayList<>()
         );
     }

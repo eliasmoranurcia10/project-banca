@@ -1,15 +1,13 @@
 package com.apibancario.controller;
 
-import com.apibancario.project_banca.model.dto.cliente.ClientResponseDto;
-import com.apibancario.project_banca.model.dto.prestamo.LoanRequestDto;
-import com.apibancario.project_banca.model.dto.prestamo.LoanResponseDto;
-import com.apibancario.project_banca.model.dto.prestamo.StatusLoanRequestDto;
-import com.apibancario.project_banca.model.enums.EstadoPrestamo;
-import com.apibancario.project_banca.service.PrestamoService;
+import com.apibancario.model.dto.prestamo.LoanRequestDto;
+import com.apibancario.model.dto.prestamo.LoanResponseDto;
+import com.apibancario.model.dto.prestamo.StatusLoanRequestDto;
+import com.apibancario.model.enums.EstadoPrestamo;
+import com.apibancario.service.PrestamoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
@@ -38,13 +36,11 @@ public class PrestamoControllerTest {
 
     private LoanResponseDto loanResponseDto;
     private LoanRequestDto loanRequestDto;
-    private ClientResponseDto clientResponseDto;
 
     @BeforeEach
     void setUp() {
-        clientResponseDto = new ClientResponseDto(1,"Elias", "Moran","elias@gmail.com");
-        loanRequestDto = new LoanRequestDto(new BigDecimal("4000"), new BigDecimal("0.20"),14, EstadoPrestamo.APROBADO, "75484848");
-        loanResponseDto = new LoanResponseDto(1,new BigDecimal("4000"), new BigDecimal("0.20"),14, new BigDecimal("400"), EstadoPrestamo.APROBADO, clientResponseDto );
+        loanRequestDto = new LoanRequestDto(new BigDecimal("4000"), new BigDecimal("0.20"),14, EstadoPrestamo.APROBADO, 1);
+        loanResponseDto = new LoanResponseDto(1,new BigDecimal("4000"), new BigDecimal("0.20"),14, new BigDecimal("400"), EstadoPrestamo.APROBADO, 1 );
     }
 
     @Test
@@ -89,7 +85,7 @@ public class PrestamoControllerTest {
     void testUpdateStatusLoan200() throws Exception {
         Integer id = 1;
         StatusLoanRequestDto statusLoanRequestDto = new StatusLoanRequestDto(EstadoPrestamo.LIQUIDADO);
-        LoanResponseDto loanResponseDtoUpdated = new LoanResponseDto(1,new BigDecimal("4000"), new BigDecimal("0.20"),14, new BigDecimal("400"), EstadoPrestamo.LIQUIDADO, clientResponseDto );
+        LoanResponseDto loanResponseDtoUpdated = new LoanResponseDto(1,new BigDecimal("4000"), new BigDecimal("0.20"),14, new BigDecimal("400"), EstadoPrestamo.LIQUIDADO, 1 );
         when(prestamoService.updateStatusLoan(id, statusLoanRequestDto)).thenReturn(loanResponseDtoUpdated);
         mockMvc.perform(patch("/loans/"+id).contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(statusLoanRequestDto)))
                 .andDo(print())

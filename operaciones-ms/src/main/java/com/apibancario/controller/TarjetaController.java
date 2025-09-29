@@ -1,9 +1,9 @@
 package com.apibancario.controller;
 
-import com.apibancario.project_banca.model.dto.tarjeta.CardPinRequestDto;
-import com.apibancario.project_banca.model.dto.tarjeta.CardRequestDto;
-import com.apibancario.project_banca.model.dto.tarjeta.CardResponseDto;
-import com.apibancario.project_banca.service.TarjetaService;
+import com.apibancario.model.dto.tarjeta.CardPinRequestDto;
+import com.apibancario.model.dto.tarjeta.CardRequestDto;
+import com.apibancario.model.dto.tarjeta.CardResponseDto;
+import com.apibancario.service.TarjetaService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

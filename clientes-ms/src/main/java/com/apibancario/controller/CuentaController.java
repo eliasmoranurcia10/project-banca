@@ -1,9 +1,9 @@
 package com.apibancario.controller;
 
-import com.apibancario.project_banca.model.dto.cuenta.AccountRequestDto;
-import com.apibancario.project_banca.model.dto.cuenta.AccountResponseDto;
-import com.apibancario.project_banca.model.dto.cuenta.PasswordRequestDto;
-import com.apibancario.project_banca.service.CuentaService;
+import com.apibancario.model.dto.cuenta.AccountRequestDto;
+import com.apibancario.model.dto.cuenta.AccountResponseDto;
+import com.apibancario.model.dto.cuenta.PasswordRequestDto;
+import com.apibancario.service.CuentaService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -29,6 +29,11 @@ public class CuentaController {
     @GetMapping("/{id}")
     public ResponseEntity<AccountResponseDto> getAccountById(@PathVariable Integer id) {
         return ResponseEntity.ok( cuentaService.findById(id) );
+    }
+
+    @GetMapping("/numero-cuenta/{numeroCuenta}")
+    public ResponseEntity<AccountResponseDto> getAccountById(@PathVariable("numeroCuenta") String numeroCuenta) {
+        return ResponseEntity.ok( cuentaService.findByNumberAccount(numeroCuenta) );
     }
 
     @PostMapping

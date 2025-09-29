@@ -1,6 +1,6 @@
 package com.apibancario.mapper;
 
-import com.apibancario.project_banca.model.enums.EstadoPrestamo;
+import com.apibancario.model.enums.EstadoPrestamo;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 

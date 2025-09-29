@@ -1,7 +1,7 @@
 package com.apibancario.service;
 
-import com.apibancario.project_banca.model.dto.cliente.ClientRequestDto;
-import com.apibancario.project_banca.model.dto.cliente.ClientResponseDto;
+import com.apibancario.model.dto.cliente.ClientRequestDto;
+import com.apibancario.model.dto.cliente.ClientResponseDto;
 
 import java.util.List;
 

@@ -1,8 +1,7 @@
 package com.apibancario.model.dto.transaccion;
 
-import com.apibancario.project_banca.model.dto.cuenta.AccountResponseDto;
-import com.apibancario.project_banca.model.dto.tarjeta.CardResponseDto;
-import com.apibancario.project_banca.model.enums.TipoTransaccion;
+import com.apibancario.model.dto.tarjeta.CardResponseDto;
+import com.apibancario.model.enums.TipoTransaccion;
 
 import java.math.BigDecimal;
 
@@ -12,6 +11,6 @@ public record TransactionResponseDto(
     BigDecimal amount,
     String date,
     CardResponseDto cardResponseDto,
-    AccountResponseDto recipientAccountResponseDto
+    Integer RecipientAccountId
 ) {
 }

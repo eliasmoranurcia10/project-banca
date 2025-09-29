@@ -1,18 +1,18 @@
 package com.apibancario.service.impl;
 
-import com.apibancario.project_banca.exception.BadRequestException;
-import com.apibancario.project_banca.exception.InternalServerErrorException;
-import com.apibancario.project_banca.exception.ResourceNotFoundException;
-import com.apibancario.project_banca.mapper.PrestamoMapper;
-import com.apibancario.project_banca.model.dto.prestamo.LoanRequestDto;
-import com.apibancario.project_banca.model.dto.prestamo.LoanResponseDto;
-import com.apibancario.project_banca.model.dto.prestamo.StatusLoanRequestDto;
-import com.apibancario.project_banca.model.entity.Cliente;
-import com.apibancario.project_banca.model.entity.Prestamo;
-import com.apibancario.project_banca.repository.ClienteRepository;
-import com.apibancario.project_banca.repository.PrestamoRepository;
-import com.apibancario.project_banca.service.PrestamoService;
-import com.apibancario.project_banca.util.CalculatorUtil;
+import com.apibancario.exception.BadRequestException;
+import com.apibancario.exception.InternalServerErrorException;
+import com.apibancario.exception.ResourceNotFoundException;
+import com.apibancario.feign.ClientFeignLoan;
+import com.apibancario.mapper.PrestamoMapper;
+import com.apibancario.model.dto.prestamo.LoanRequestDto;
+import com.apibancario.model.dto.prestamo.LoanResponseDto;
+import com.apibancario.model.dto.prestamo.StatusLoanRequestDto;
+import com.apibancario.model.entity.Prestamo;
+import com.apibancario.repository.PrestamoRepository;
+import com.apibancario.service.PrestamoService;
+import com.apibancario.util.CalculatorUtil;
+import feign.FeignException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +23,8 @@ import java.util.List;
 public class PrestamoServiceImpl implements PrestamoService {
 
     private final PrestamoRepository prestamoRepository;
-    private final ClienteRepository clienteRepository;
     private final PrestamoMapper prestamoMapper;
+    private final ClientFeignLoan clientFeignLoan;
 
     @Override
     public List<LoanResponseDto> listAll() {
@@ -44,12 +44,13 @@ public class PrestamoServiceImpl implements PrestamoService {
     @Override
     public LoanResponseDto save(LoanRequestDto loanRequestDto) {
 
-        Prestamo prestamo = prestamoMapper.toPrestamo(loanRequestDto);
+        try {
+            clientFeignLoan.findById(loanRequestDto.clientId());
+        } catch (FeignException.NotFound ex) {
+            throw new ResourceNotFoundException("No existe el cliente con el id: "+loanRequestDto.clientId());
+        }
 
-        Cliente cliente = clienteRepository.findByDni(loanRequestDto.dni()).orElseThrow(
-                () -> new ResourceNotFoundException("No se encontró el dni del cliente")
-        );
-        prestamo.setCliente(cliente);
+        Prestamo prestamo = prestamoMapper.toPrestamo(loanRequestDto);
 
         prestamo.setCuotaMensual(CalculatorUtil.calcularCuotaMensual(
                 prestamo.getTasaInteres(),

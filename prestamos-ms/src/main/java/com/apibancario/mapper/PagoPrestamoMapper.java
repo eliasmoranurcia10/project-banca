@@ -1,8 +1,8 @@
 package com.apibancario.mapper;
 
-import com.apibancario.project_banca.model.dto.pagoprestamo.LoanPayRequestDto;
-import com.apibancario.project_banca.model.dto.pagoprestamo.LoanPayResponseDto;
-import com.apibancario.project_banca.model.entity.PagoPrestamo;
+import com.apibancario.model.dto.pagoprestamo.LoanPayRequestDto;
+import com.apibancario.model.dto.pagoprestamo.LoanPayResponseDto;
+import com.apibancario.model.entity.PagoPrestamo;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;

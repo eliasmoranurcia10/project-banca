@@ -35,7 +35,6 @@ public class Transaccion {
     @JoinColumn(name = "id_tarjeta")
     private Tarjeta tarjeta;
 
-    @ManyToOne
-    @JoinColumn(name = "id_cuenta")
-    private Cuenta cuentaDestino;
+    @Column(name = "id_cuenta")
+    private Integer idCuentaDestino;
 }

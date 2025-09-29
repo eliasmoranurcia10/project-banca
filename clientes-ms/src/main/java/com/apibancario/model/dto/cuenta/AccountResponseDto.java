@@ -1,7 +1,7 @@
 package com.apibancario.model.dto.cuenta;
 
-import com.apibancario.project_banca.model.dto.cliente.ClientResponseDto;
-import com.apibancario.project_banca.model.enums.TipoCuenta;
+import com.apibancario.model.dto.cliente.ClientResponseDto;
+import com.apibancario.model.enums.TipoCuenta;
 
 public record AccountResponseDto(
         Integer accountId,

@@ -1,14 +1,13 @@
 package com.apibancario.service.impl;
 
-import com.apibancario.project_banca.exception.BadRequestException;
-import com.apibancario.project_banca.exception.InternalServerErrorException;
-import com.apibancario.project_banca.exception.ResourceNotFoundException;
-import com.apibancario.project_banca.mapper.ClienteMapper;
-import com.apibancario.project_banca.model.dto.cliente.ClientRequestDto;
-import com.apibancario.project_banca.model.dto.cliente.ClientResponseDto;
-import com.apibancario.project_banca.model.entity.Cliente;
-import com.apibancario.project_banca.repository.ClienteRepository;
-import com.apibancario.project_banca.service.ClienteService;
+import com.apibancario.exception.BadRequestException;
+import com.apibancario.exception.InternalServerErrorException;
+import com.apibancario.exception.ResourceNotFoundException;
+import com.apibancario.mapper.ClienteMapper;
+import com.apibancario.model.dto.cliente.ClientRequestDto;
+import com.apibancario.model.dto.cliente.ClientResponseDto;
+import com.apibancario.model.entity.Cliente;
+import com.apibancario.repository.ClienteRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,7 +39,7 @@ public class ClienteServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        cliente = new Cliente(1,"Elias", "Moran", "75484848", "elias@gmail.com",new ArrayList<>(), new ArrayList<>());
+        cliente = new Cliente(1,"Elias", "Moran", "75484848", "elias@gmail.com",new ArrayList<>());
         clientRequestDto = new ClientRequestDto("Elias", "Moran", "75484848", "elias@gmail.com");
         clientResponseDto = new ClientResponseDto(1,"Elias", "Moran","elias@gmail.com");
     }

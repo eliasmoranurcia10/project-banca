@@ -37,11 +37,4 @@ public class Cuenta {
     @ManyToOne
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;
-
-    @OneToMany(mappedBy = "cuenta")
-    private List<Tarjeta> tarjetas;
-
-    @OneToMany(mappedBy = "cuentaDestino")
-    private List<Transaccion> transferenciasRecibidas;
-
 }

@@ -1,7 +1,6 @@
 package com.apibancario.model.dto.prestamo;
 
-import com.apibancario.project_banca.model.dto.cliente.ClientResponseDto;
-import com.apibancario.project_banca.model.enums.EstadoPrestamo;
+import com.apibancario.model.enums.EstadoPrestamo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,16 +12,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class LoanResponseDtoTest {
 
     private LoanResponseDto loanResponseDto;
-    private ClientResponseDto clientResponseDto;
 
     @BeforeEach
     void setUp() {
-        clientResponseDto = new ClientResponseDto(
-                1,
-                "Juan",
-                "Pérez",
-                "juan.perez@mail.com"
-        );
 
         loanResponseDto = new LoanResponseDto(
                 1,
@@ -31,7 +23,7 @@ public class LoanResponseDtoTest {
                 14,
                 new BigDecimal("400.00"),
                 EstadoPrestamo.APROBADO,
-                clientResponseDto
+                1
         );
     }
 
@@ -44,7 +36,7 @@ public class LoanResponseDtoTest {
         assertEquals(14, loanResponseDto.monthsOfDeadline());
         assertEquals(new BigDecimal("400.00"), loanResponseDto.monthlyFee());
         assertEquals(EstadoPrestamo.APROBADO, loanResponseDto.status());
-        assertEquals(clientResponseDto, loanResponseDto.clientResponseDto());
+        assertEquals(1, loanResponseDto.clientId());
     }
 
 }

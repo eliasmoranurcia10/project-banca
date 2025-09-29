@@ -21,7 +21,6 @@ public class CuentaTest {
                 "Mendoza",
                 "78561545",
                 "juanmendoza@gmail.com",
-                new ArrayList<>(),
                 new ArrayList<>()
         );
     }
@@ -35,9 +34,7 @@ public class CuentaTest {
                 "AHORRO",
                 "455856",
                 new BigDecimal("10.50"),
-                cliente,
-                new ArrayList<>(),
-                new ArrayList<>()
+                cliente
         );
 
         assertNotNull(cuenta);

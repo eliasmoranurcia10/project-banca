@@ -1,6 +1,6 @@
 spring:
   application:
-    name: project-banca
+    name: operaciones-ms
   profiles:
     active:
       - dev

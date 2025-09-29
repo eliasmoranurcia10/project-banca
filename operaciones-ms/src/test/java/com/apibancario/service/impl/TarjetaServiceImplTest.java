@@ -1,23 +1,17 @@
 package com.apibancario.service.impl;
 
-import com.apibancario.project_banca.exception.BadRequestException;
-import com.apibancario.project_banca.exception.InternalServerErrorException;
-import com.apibancario.project_banca.exception.ResourceNotFoundException;
-import com.apibancario.project_banca.mapper.TarjetaMapper;
-import com.apibancario.project_banca.model.dto.cliente.ClientResponseDto;
-import com.apibancario.project_banca.model.dto.cuenta.AccountResponseDto;
-import com.apibancario.project_banca.model.dto.tarjeta.CardPinRequestDto;
-import com.apibancario.project_banca.model.dto.tarjeta.CardRequestDto;
-import com.apibancario.project_banca.model.dto.tarjeta.CardResponseDto;
-import com.apibancario.project_banca.model.entity.Cliente;
-import com.apibancario.project_banca.model.entity.Cuenta;
-import com.apibancario.project_banca.model.entity.Tarjeta;
-import com.apibancario.project_banca.model.enums.TipoCuenta;
-import com.apibancario.project_banca.model.enums.TipoTarjeta;
-import com.apibancario.project_banca.repository.CuentaRepository;
-import com.apibancario.project_banca.repository.TarjetaRepository;
-import com.apibancario.project_banca.util.GeneradorUtil;
-import com.apibancario.project_banca.util.PasswordUtil;
+import com.apibancario.exception.BadRequestException;
+import com.apibancario.exception.InternalServerErrorException;
+import com.apibancario.exception.ResourceNotFoundException;
+import com.apibancario.mapper.TarjetaMapper;
+import com.apibancario.model.dto.tarjeta.CardPinRequestDto;
+import com.apibancario.model.dto.tarjeta.CardRequestDto;
+import com.apibancario.model.dto.tarjeta.CardResponseDto;
+import com.apibancario.model.entity.Tarjeta;
+import com.apibancario.model.enums.TipoTarjeta;
+import com.apibancario.repository.TarjetaRepository;
+import com.apibancario.util.GeneradorUtil;
+import com.apibancario.util.PasswordUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,9 +36,6 @@ public class TarjetaServiceImplTest {
     private TarjetaRepository tarjetaRepository;
 
     @Mock
-    private CuentaRepository cuentaRepository;
-
-    @Mock
     private TarjetaMapper tarjetaMapper;
 
     @InjectMocks
@@ -54,19 +45,12 @@ public class TarjetaServiceImplTest {
     private CardRequestDto cardRequestDto;
     private CardResponseDto cardResponseDto;
     private CardPinRequestDto cardPinRequestDto;
-    private Cuenta cuenta;
 
     @BeforeEach
     void setUp() {
-        Cliente cliente = new Cliente(1,"Elias", "Moran", "75484848", "elias@gmail.com",new ArrayList<>(), new ArrayList<>());
-        ClientResponseDto clientResponseDto = new ClientResponseDto(1,"Elias", "Moran","elias@gmail.com");
-
-        cuenta = new Cuenta(1,"56445587889696", "AHORRO", "585898", new BigDecimal("40000.00"), cliente, new ArrayList<>(), new ArrayList<>());
-        AccountResponseDto accountResponseDto = new AccountResponseDto(1,"56445587889696", TipoCuenta.AHORRO, clientResponseDto);
-
-        tarjeta = new Tarjeta(1, "4552366895916954", "DEBITO", "09/30", "5058", "548", cuenta, new ArrayList<>());
+        tarjeta = new Tarjeta(1, "4552366895916954", "DEBITO", "09/30", "5058", "548", 1, new ArrayList<>());
         cardRequestDto = new CardRequestDto(TipoTarjeta.DEBITO,"5058", 1);
-        cardResponseDto = new CardResponseDto(1, "4552366895916954", TipoTarjeta.DEBITO, "09/30", accountResponseDto);
+        cardResponseDto = new CardResponseDto(1, "4552366895916954", TipoTarjeta.DEBITO, "09/30", 1);
         cardPinRequestDto = new CardPinRequestDto("5058","0303");
     }
 
@@ -141,18 +125,8 @@ public class TarjetaServiceImplTest {
     }
 
     @Test
-    void testSave_ResourceNotFoundExceptionAccount() {
-        when(tarjetaMapper.toTarjeta(cardRequestDto)).thenReturn(tarjeta);
-        when(cuentaRepository.findById(cardRequestDto.accountId())).thenReturn(Optional.empty());
-
-        ResourceNotFoundException ex = assertThrows(ResourceNotFoundException.class, () -> tarjetaService.save(cardRequestDto));
-        assertEquals("No se encontró el id de la cuenta. id: "+ cardRequestDto.accountId(), ex.getMessage());
-    }
-
-    @Test
     void testSave_BadRequestException() {
         when(tarjetaMapper.toTarjeta(cardRequestDto)).thenReturn(tarjeta);
-        when(cuentaRepository.findById(cardRequestDto.accountId())).thenReturn(Optional.of(cuenta));
         when(tarjetaRepository.save(tarjeta)).thenThrow(new RuntimeException("DB error"));
 
         BadRequestException ex = assertThrows(BadRequestException.class, () -> tarjetaService.save(cardRequestDto));
@@ -163,7 +137,6 @@ public class TarjetaServiceImplTest {
     @Test
     void testSave_SuccessCard() {
         when(tarjetaMapper.toTarjeta(cardRequestDto)).thenReturn(tarjeta);
-        when(cuentaRepository.findById(cardRequestDto.accountId())).thenReturn(Optional.of(cuenta));
         when(tarjetaRepository.save(tarjeta)).thenReturn(tarjeta);
         when(tarjetaMapper.toCardResponseDto(tarjeta)).thenReturn(cardResponseDto);
 

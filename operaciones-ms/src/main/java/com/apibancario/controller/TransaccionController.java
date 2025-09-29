@@ -1,8 +1,8 @@
 package com.apibancario.controller;
 
-import com.apibancario.project_banca.model.dto.transaccion.TransactionRequestDto;
-import com.apibancario.project_banca.model.dto.transaccion.TransactionResponseDto;
-import com.apibancario.project_banca.service.TransaccionService;
+import com.apibancario.model.dto.transaccion.TransactionRequestDto;
+import com.apibancario.model.dto.transaccion.TransactionResponseDto;
+import com.apibancario.service.TransaccionService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

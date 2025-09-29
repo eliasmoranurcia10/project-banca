@@ -1,13 +1,10 @@
 package com.apibancario.controller;
 
-import com.apibancario.project_banca.model.dto.cliente.ClientResponseDto;
-import com.apibancario.project_banca.model.dto.cuenta.AccountResponseDto;
-import com.apibancario.project_banca.model.dto.tarjeta.CardPinRequestDto;
-import com.apibancario.project_banca.model.dto.tarjeta.CardRequestDto;
-import com.apibancario.project_banca.model.dto.tarjeta.CardResponseDto;
-import com.apibancario.project_banca.model.enums.TipoCuenta;
-import com.apibancario.project_banca.model.enums.TipoTarjeta;
-import com.apibancario.project_banca.service.TarjetaService;
+import com.apibancario.model.dto.tarjeta.CardPinRequestDto;
+import com.apibancario.model.dto.tarjeta.CardRequestDto;
+import com.apibancario.model.dto.tarjeta.CardResponseDto;
+import com.apibancario.model.enums.TipoTarjeta;
+import com.apibancario.service.TarjetaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,10 +37,8 @@ public class TarjetaControllerTest {
 
     @BeforeEach
     void setUp() {
-        ClientResponseDto clientResponseDto = new ClientResponseDto(1,"Elias", "Moran","elias@gmail.com");
-        AccountResponseDto accountResponseDto = new AccountResponseDto(1,"56445587889696", TipoCuenta.AHORRO, clientResponseDto);
         cardRequestDto = new CardRequestDto(TipoTarjeta.DEBITO,"5058", 1);
-        cardResponseDto = new CardResponseDto(1, "4552366895916954", TipoTarjeta.DEBITO, "09/30", accountResponseDto);
+        cardResponseDto = new CardResponseDto(1, "4552366895916954", TipoTarjeta.DEBITO, "09/30", 1);
     }
 
     @Test

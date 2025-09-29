@@ -1,6 +1,6 @@
 package com.apibancario.mapper;
 
-import com.apibancario.project_banca.model.enums.TipoTransaccion;
+import com.apibancario.model.enums.TipoTransaccion;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 

@@ -1,9 +1,9 @@
 package com.apibancario.mapper;
 
-import com.apibancario.project_banca.model.dto.cuenta.AccountRequestDto;
-import com.apibancario.project_banca.model.dto.cuenta.AccountResponseDto;
-import com.apibancario.project_banca.model.entity.Cuenta;
-import com.apibancario.project_banca.model.enums.TipoCuenta;
+import com.apibancario.model.dto.cuenta.AccountRequestDto;
+import com.apibancario.model.dto.cuenta.AccountResponseDto;
+import com.apibancario.model.entity.Cuenta;
+import com.apibancario.model.enums.TipoCuenta;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -18,8 +18,6 @@ public interface CuentaMapper {
     @Mapping(target = "tipoCuenta", expression = "java(accountRequestDto.accountType().name())") // Enum -> String
     @Mapping(target = "claveAcceso", source = "password")
     @Mapping(target = "cliente", ignore = true)
-    @Mapping(target = "tarjetas", ignore = true)
-    @Mapping(target = "transferenciasRecibidas", ignore = true)
     Cuenta toCuenta(AccountRequestDto accountRequestDto);
 
     @Mapping(target = "accountId", source = "idCuenta")

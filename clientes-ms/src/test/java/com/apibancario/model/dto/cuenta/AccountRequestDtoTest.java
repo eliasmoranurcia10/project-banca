@@ -1,7 +1,6 @@
 package com.apibancario.model.dto.cuenta;
 
-import com.apibancario.project_banca.model.dto.cliente.ClientRequestDto;
-import com.apibancario.project_banca.model.enums.TipoCuenta;
+import com.apibancario.model.enums.TipoCuenta;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;

@@ -1,22 +1,21 @@
 package com.apibancario.service.impl;
 
-import com.apibancario.project_banca.exception.BadRequestException;
-import com.apibancario.project_banca.exception.InternalServerErrorException;
-import com.apibancario.project_banca.exception.ResourceNotFoundException;
-import com.apibancario.project_banca.mapper.CuentaMapper;
-import com.apibancario.project_banca.model.dto.cuenta.AccountRequestDto;
-import com.apibancario.project_banca.model.dto.cuenta.AccountResponseDto;
-import com.apibancario.project_banca.model.dto.cuenta.PasswordRequestDto;
-import com.apibancario.project_banca.model.entity.Cliente;
-import com.apibancario.project_banca.model.entity.Cuenta;
-import com.apibancario.project_banca.repository.ClienteRepository;
-import com.apibancario.project_banca.repository.CuentaRepository;
-import com.apibancario.project_banca.service.CuentaService;
-import com.apibancario.project_banca.util.GeneradorUtil;
-import com.apibancario.project_banca.util.PasswordUtil;
+import com.apibancario.exception.BadRequestException;
+import com.apibancario.exception.InternalServerErrorException;
+import com.apibancario.exception.ResourceNotFoundException;
+import com.apibancario.mapper.CuentaMapper;
+import com.apibancario.model.dto.cuenta.AccountRequestDto;
+import com.apibancario.model.dto.cuenta.AccountResponseDto;
+import com.apibancario.model.dto.cuenta.PasswordRequestDto;
+import com.apibancario.model.entity.Cliente;
+import com.apibancario.model.entity.Cuenta;
+import com.apibancario.repository.ClienteRepository;
+import com.apibancario.repository.CuentaRepository;
+import com.apibancario.service.CuentaService;
+import com.apibancario.util.GeneradorUtil;
+import com.apibancario.util.PasswordUtil;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,6 +44,16 @@ public class CuentaServiceImpl implements CuentaService {
         );
         return cuentaMapper.toAccountResponseDto(cuenta);
     }
+
+    @Override
+    public AccountResponseDto findByNumberAccount(String numeroCuenta) {
+        if(numeroCuenta==null || numeroCuenta.isBlank() || numeroCuenta.length()!=14) throw new BadRequestException("El numero de cuenta es incorrecto");
+        Cuenta cuenta = cuentaRepository.findByNumeroCuenta(numeroCuenta).orElseThrow(
+                () -> new ResourceNotFoundException("No se encontró la cuenta con el número: "+ numeroCuenta)
+        );
+        return cuentaMapper.toAccountResponseDto(cuenta);
+    }
+
 
     @Override
     @Transactional

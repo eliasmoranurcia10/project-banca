@@ -37,9 +37,8 @@ public class Prestamo {
     @Column(nullable = false)
     private String estado;
 
-    @ManyToOne
-    @JoinColumn(name = "id_cliente")
-    private Cliente cliente;
+    @Column(name = "id_cliente")
+    private Integer idCliente;
 
     @OneToMany(mappedBy = "prestamo")
     private List<PagoPrestamo> pagosPrestamo;
