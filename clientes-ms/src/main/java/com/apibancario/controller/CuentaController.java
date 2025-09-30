@@ -3,6 +3,8 @@ package com.apibancario.controller;
 import com.apibancario.model.dto.cuenta.AccountRequestDto;
 import com.apibancario.model.dto.cuenta.AccountResponseDto;
 import com.apibancario.model.dto.cuenta.PasswordRequestDto;
+import com.apibancario.model.dto.cuenta.UpdateSaldoRequestDto;
+import com.apibancario.model.enums.TipoOperacion;
 import com.apibancario.service.CuentaService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -11,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -32,7 +35,7 @@ public class CuentaController {
     }
 
     @GetMapping("/numero-cuenta/{numeroCuenta}")
-    public ResponseEntity<AccountResponseDto> getAccountById(@PathVariable("numeroCuenta") String numeroCuenta) {
+    public ResponseEntity<AccountResponseDto> getAccountByNumber(@PathVariable("numeroCuenta") String numeroCuenta) {
         return ResponseEntity.ok( cuentaService.findByNumberAccount(numeroCuenta) );
     }
 
@@ -47,6 +50,14 @@ public class CuentaController {
             @RequestBody @Valid PasswordRequestDto passwordRequestDto
     ){
         return ResponseEntity.ok( cuentaService.updatePassword(id, passwordRequestDto) );
+    }
+
+    @PutMapping("/actualizar-saldo/{id}")
+    public ResponseEntity<AccountResponseDto> updateAccountBalance(
+            @PathVariable Integer id,
+            @RequestBody @Valid UpdateSaldoRequestDto updateSaldoRequestDto
+            ) {
+        return ResponseEntity.ok( cuentaService.updateSaldo(id, updateSaldoRequestDto) );
     }
 
     @DeleteMapping("/{id}")

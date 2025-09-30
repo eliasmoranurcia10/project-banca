@@ -7,8 +7,10 @@ import com.apibancario.mapper.CuentaMapper;
 import com.apibancario.model.dto.cuenta.AccountRequestDto;
 import com.apibancario.model.dto.cuenta.AccountResponseDto;
 import com.apibancario.model.dto.cuenta.PasswordRequestDto;
+import com.apibancario.model.dto.cuenta.UpdateSaldoRequestDto;
 import com.apibancario.model.entity.Cliente;
 import com.apibancario.model.entity.Cuenta;
+import com.apibancario.model.enums.TipoOperacion;
 import com.apibancario.repository.ClienteRepository;
 import com.apibancario.repository.CuentaRepository;
 import com.apibancario.service.CuentaService;
@@ -18,6 +20,7 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -68,9 +71,10 @@ public class CuentaServiceImpl implements CuentaService {
             reintentos--;
         } while (cuentaRepository.findByNumeroCuenta(numeroCuentaAleatorio).isPresent() && reintentos>0 );
         if(reintentos==0) throw new InternalServerErrorException("No fue posible generar un número de cuenta único");
-
         cuenta.setNumeroCuenta(numeroCuentaAleatorio);
+
         cuenta.setClaveAcceso(PasswordUtil.hashPassword(cuenta.getClaveAcceso()));
+
         Cliente cliente = clienteRepository.findById(accountRequestDto.clientId()).orElseThrow(
                 () -> new ResourceNotFoundException("No se encontró el id del cliente")
         );
@@ -105,6 +109,29 @@ public class CuentaServiceImpl implements CuentaService {
 
     @Override
     @Transactional
+    public AccountResponseDto updateSaldo(Integer id, UpdateSaldoRequestDto updateSaldoRequestDto){
+        TipoOperacion tipoOperacion = updateSaldoRequestDto.tipoOperacion();
+        BigDecimal monto = updateSaldoRequestDto.amount();
+
+        if(id==null || id<=0) throw new BadRequestException("El id es incorrecto");
+        if (monto == null || monto.compareTo(BigDecimal.ZERO) <= 0) throw new BadRequestException("El monto debe ser mayor a 0");
+        Cuenta cuenta = cuentaRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("No se encontró la cuenta con id: "+id)
+        );
+
+        switch (tipoOperacion) {
+            case DEPOSITO -> cuenta.setSaldo(cuenta.getSaldo().add(monto));
+            case RETIRO -> {
+                if (monto.compareTo(cuenta.getSaldo())>0) throw new BadRequestException("Saldo Insuficiente");
+                cuenta.setSaldo(cuenta.getSaldo().subtract(monto));
+            }
+            default -> throw new BadRequestException("Tipo de Operación no soportado");
+        }
+        return cuentaMapper.toAccountResponseDto(cuentaRepository.save(cuenta));
+    }
+
+    @Override
+    @Transactional
     public void delete(Integer id) {
         if(id==null || id<=0) throw new BadRequestException("El id es incorrecto");
         Cuenta cuenta = cuentaRepository.findById(id).orElseThrow(
@@ -116,4 +143,5 @@ public class CuentaServiceImpl implements CuentaService {
             throw new InternalServerErrorException("Error inesperado al eliminar la cuenta");
         }
     }
+
 }
