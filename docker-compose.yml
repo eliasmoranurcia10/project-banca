@@ -1,38 +1,51 @@
 services:
-  java_app_project_banca:
-    container_name: java_app_project_banca
-    image: project-banca-java-app:1.0.0
+  java_app_prestamos_ms:
+    container_name: java_app_prestamos_ms
+    image: prestamos-ms-java-app:1.0.0
     build: .
     ports:
-      - "8081:8080"
+      - "8083:8083"
     environment:
-      - DATABASE_URL=jdbc:postgresql://postgres_server_banca:5432/banca_database
+      - DATABASE_URL=jdbc:postgresql://postgres_server_prestamos_ms:5432/prestamos_ms_db
       - DATABASE_USERNAME=elias
       - DATABASE_PASSWORD=root
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=false
+      - EUREKA_INSTANCE_HOSTNAME=localhost
     depends_on:
-      - postgres_server_banca
+      - postgres_server_prestamos_ms
+    networks:
+      - micro_net
 
-  postgres_server_banca:
-    container_name: postgres_server_banca
+  postgres_server_prestamos_ms:
+    container_name: postgres_server_prestamos_ms
     image: postgres:latest
     ports:
-      - '5433:5432'
+      - '5436:5432'
     environment:
       POSTGRES_USER: elias
-      POSTGRES_DB: banca_database
+      POSTGRES_DB: prestamos_ms_db
       POSTGRES_PASSWORD: root
     volumes:
-      - database_vol_banca:/var/lib/postgrsql/data
+      - database_vol_prestamos_ms:/var/lib/postgrsql/data
+    networks:
+      - micro_net
 
-  pgadmin_project_banca:
+  pgadmin_prestamos_ms:
     image: dpage/pgadmin4
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: admin
     ports:
-      - "81:80"
+      - "84:80"
     depends_on:
-      - postgres_server_banca
+      - postgres_server_prestamos_ms
+    networks:
+      - micro_net
 
 volumes:
-  database_vol_banca:
+  database_vol_prestamos_ms:
+
+networks:
+  micro_net:
+    external: true

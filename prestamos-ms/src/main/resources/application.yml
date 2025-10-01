@@ -3,4 +3,4 @@ spring:
     name: prestamos-ms
   profiles:
     active:
-      - dev
+      - prod
