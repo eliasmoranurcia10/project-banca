@@ -5,6 +5,8 @@ import com.apibancario.model.enums.TipoCuenta;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -27,6 +29,7 @@ public class AccountResponseDtoTest {
                 1,
                 "45455858595652",
                 TipoCuenta.AHORRO,
+                new BigDecimal("15"),
                 clientResponseDto
         );
     }

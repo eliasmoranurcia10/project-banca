@@ -35,7 +35,7 @@ public class CuentaMapperTest {
 
         cuenta = new Cuenta(1,"56445587889696", "AHORRO", "585898", new BigDecimal("40000.00"), cliente);
         accountRequestDto = new AccountRequestDto(TipoCuenta.AHORRO, "585898", new BigDecimal("40000.00"), 1);
-        accountResponseDto = new AccountResponseDto(1,"56445587889696", TipoCuenta.AHORRO, clientResponseDto);
+        accountResponseDto = new AccountResponseDto(1,"56445587889696", TipoCuenta.AHORRO,new BigDecimal("15") ,clientResponseDto);
         passwordRequestDto = new PasswordRequestDto("585898", "050505");
     }
 

@@ -3,4 +3,4 @@ spring:
     name: clientes-ms
   profiles:
     active:
-      - dev
+      - prod

@@ -42,7 +42,7 @@ public class CuentaControllerTest {
     @BeforeEach
     void setUp() {
         ClientResponseDto clientResponseDto = new ClientResponseDto(1,"Elias", "Moran","elias@gmail.com");
-        accountResponseDto = new AccountResponseDto(1,"56445587889696", TipoCuenta.AHORRO, clientResponseDto);
+        accountResponseDto = new AccountResponseDto(1,"56445587889696", TipoCuenta.AHORRO, new BigDecimal("15"),clientResponseDto);
         accountRequestDto = new AccountRequestDto(TipoCuenta.AHORRO, "585898", new BigDecimal("40000.00"), 1);
         passwordRequestDto = new PasswordRequestDto("585898", "050505");
     }

@@ -1,0 +1,13 @@
+services:
+  eureka-server:
+    container_name: eureka-server
+    image: eureka-server-java-app:1.0.0
+    build: .
+    ports:
+      - "8761:8761"
+    networks:
+      - micro_net
+
+networks:
+  micro_net:
+    external: true
