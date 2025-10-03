@@ -1,0 +1,15 @@
+services:
+  api-gateway:
+    container_name: api-gateway
+    image: api-gateway-java-app:1.0.0
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    networks:
+      - micro_net
+
+networks:
+  micro_net:
+    external: true

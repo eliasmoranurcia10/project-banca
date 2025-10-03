@@ -1,0 +1,38 @@
+server:
+  port: 8080
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE}
+    instance:
+      prefer-ip-address: true
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: clientes_route
+              uri: lb://clientes-ms
+              predicates:
+                - Path=/clientes/**
+              filters:
+                - StripPrefix=1
+            - id: operaciones_route
+              uri: lb://operaciones-ms
+              predicates:
+                - Path=/operaciones/**
+              filters:
+                - StripPrefix=1
+            - id: prestamos_route
+              uri: lb://prestamos-ms
+              predicates:
+                - Path=/prestamos/**
+              filters:
+                - StripPrefix=1
+  main:
+    web-application-type: reactive

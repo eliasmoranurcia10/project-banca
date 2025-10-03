@@ -26,6 +26,7 @@
         <module>prestamos-ms</module>
         <module>operaciones-ms</module>
         <module>eureka-server</module>
+        <module>gateway</module>
     </modules>
     <scm>
 		<connection/>
