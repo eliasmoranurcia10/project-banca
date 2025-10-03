@@ -1,6 +1,6 @@
 services:
-  java_app_clientes_ms:
-    container_name: java_app_clientes_ms
+  clientes-ms:
+    container_name: clientes-ms
     image: clientes-ms-java-app:1.0.0
     build: .
     ports:
@@ -10,8 +10,7 @@ services:
       - DATABASE_USERNAME=elias
       - DATABASE_PASSWORD=root
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
-      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=false
-      - EUREKA_INSTANCE_HOSTNAME=localhost
+      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
     depends_on:
       - postgres_server_clientes_ms
     networks:

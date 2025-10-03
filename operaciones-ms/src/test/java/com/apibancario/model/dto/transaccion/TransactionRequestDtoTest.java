@@ -39,7 +39,7 @@ public class TransactionRequestDtoTest {
         assertEquals(new BigDecimal("40.00"), transactionRequestDto.amount());
         assertEquals("5456585856696365", transactionRequestDto.cardNumber());
         assertEquals("5447", transactionRequestDto.cardPin());
-        assertNull( transactionRequestDto.RecipientAccountId() );
+        assertNull( transactionRequestDto.recipientAccountId() );
     }
 
     @Test

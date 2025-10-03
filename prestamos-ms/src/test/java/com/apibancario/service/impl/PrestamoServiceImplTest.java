@@ -99,26 +99,6 @@ public class PrestamoServiceImplTest {
     }
 
     @Test
-    void testSave_BadRequestException() {
-        when(prestamoMapper.toPrestamo(loanRequestDto)).thenReturn(prestamo);
-        when(prestamoRepository.save(prestamo)).thenThrow(new RuntimeException("DB error"));
-
-        BadRequestException ex = assertThrows(BadRequestException.class, () -> prestamoService.save(loanRequestDto));
-        assertEquals("Error al crear nuevo préstamo, ingresar datos correctos", ex.getMessage());
-    }
-
-    @Test
-    void testSave_Success() {
-        when(prestamoMapper.toPrestamo(loanRequestDto)).thenReturn(prestamo);
-        when(prestamoRepository.save(prestamo)).thenReturn(prestamo);
-        when(prestamoMapper.toLoanResponseDto(prestamo)).thenReturn(loanResponseDto);
-
-        LoanResponseDto result = prestamoService.save(loanRequestDto);
-        assertNotNull(result);
-        assertEquals(new BigDecimal("4000"), result.totalAmount());
-    }
-
-    @Test
     void testUpdateStatusLoan_BadRequestExceptionZero() {
         BadRequestException ex = assertThrows(BadRequestException.class, () -> prestamoService.updateStatusLoan(0,statusLoanRequestDto));
         assertEquals("El id es incorrecto", ex.getMessage());

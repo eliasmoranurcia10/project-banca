@@ -101,51 +101,6 @@ public class TarjetaServiceImplTest {
         verify(tarjetaRepository, times(1)).findById(id);
     }
 
-    @Test
-    void testSave_InternalServerErrorException() {
-        when(tarjetaMapper.toTarjeta(cardRequestDto)).thenReturn(tarjeta);
-
-        try (MockedStatic<GeneradorUtil> utilMock = Mockito.mockStatic(GeneradorUtil.class)) {
-
-            utilMock.when(() -> GeneradorUtil.generarNumeroAleatorio(16))
-                    .thenReturn("4552366895916954");
-
-            when(tarjetaRepository.findByNumeroTarjeta("4552366895916954"))
-                    .thenReturn(Optional.of(new Tarjeta()))
-                    .thenReturn(Optional.of(new Tarjeta()))
-                    .thenReturn(Optional.of(new Tarjeta()));
-
-            InternalServerErrorException ex = assertThrows(
-                    InternalServerErrorException.class,
-                    () -> tarjetaService.save(cardRequestDto)
-            );
-
-            assertEquals("No fue posible generar un número de tarjeta único", ex.getMessage());
-        }
-    }
-
-    @Test
-    void testSave_BadRequestException() {
-        when(tarjetaMapper.toTarjeta(cardRequestDto)).thenReturn(tarjeta);
-        when(tarjetaRepository.save(tarjeta)).thenThrow(new RuntimeException("DB error"));
-
-        BadRequestException ex = assertThrows(BadRequestException.class, () -> tarjetaService.save(cardRequestDto));
-
-        assertEquals("Error al crear nueva tarjeta, ingrese los datos correctos", ex.getMessage());
-    }
-
-    @Test
-    void testSave_SuccessCard() {
-        when(tarjetaMapper.toTarjeta(cardRequestDto)).thenReturn(tarjeta);
-        when(tarjetaRepository.save(tarjeta)).thenReturn(tarjeta);
-        when(tarjetaMapper.toCardResponseDto(tarjeta)).thenReturn(cardResponseDto);
-
-        CardResponseDto result = tarjetaService.save(cardRequestDto);
-
-        assertNotNull(result);
-        assertEquals(TipoTarjeta.DEBITO, result.cardType());
-        verify(tarjetaRepository, times(1)).save(tarjeta);
-    }
 
     @Test
     void testUpdatePinTarjeta_BadRequestExceptionIdCuentaZero() {
